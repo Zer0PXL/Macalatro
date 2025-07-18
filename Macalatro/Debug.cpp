@@ -4,8 +4,8 @@
 #include "AI.hpp"
 #include <iostream>
 
-bool debugMode = true;
-bool cheats = true;
+bool debugMode = false;
+bool cheats = false;
 Difficulty difficulty = SMART; //DUMB, SMART, CHEATER
 
 void Debug::toggleDebugMode()
