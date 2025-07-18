@@ -1,10 +1,21 @@
 #pragma once
 #include "Round.hpp"
+
+enum Difficulty
+{
+	DUMB,
+	SMART,
+	CHEATER
+};
+
+extern Difficulty difficulty;
+
 class AI
 {
 private:
 
 public:
-	GameState& playTurn(GameState& gs);
+	void changeDifficulty(Difficulty difficulty);
+	void playTurn(GameState& gs);
 };
 

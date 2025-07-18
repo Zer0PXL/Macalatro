@@ -1,6 +1,7 @@
 #include "Card.hpp"
 #include "Debug.hpp"
 #include "Chance.hpp"
+#include "Round.hpp"
 #include <iostream>
 #include <string>
 
@@ -82,7 +83,7 @@ void Card::setAbility(Ability a)
 	ability = a;
 }
 
-Turn Card::actAbility(GameState& gs) const
+Turn Card::actAbility(GameState& gs)
 {
 	Hand* targetHand = &gs.playerHand;
 	Deck* targetDeck = &gs.playerDeck;
@@ -157,7 +158,7 @@ Turn Card::actAbility(GameState& gs) const
 	case SKIP:
 		Debug::log("[Card.cpp] SKIP");
 		if (owner == PLAYER) return PLAYERTURN;
-		else if (owner == AI) return AITURN;
+		else if (owner == OWNERAI) return AITURN;
 		else std::cout << "X - uh... SKIP ability called by invalid card with no owner?\n";
 		break;
 	default:

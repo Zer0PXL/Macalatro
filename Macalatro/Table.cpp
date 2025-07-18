@@ -46,7 +46,7 @@ void Table::clearPile(Deck& playerDeck, Deck& aiDeck)
 	for (int i = 0; i < pile.size(); i++)
 	{
 		if (pile[i]->getOwner() == PLAYER) playerDeck.addCard(pile[i]);
-		if (pile[i]->getOwner() == AI) aiDeck.addCard(pile[i]);
+		if (pile[i]->getOwner() == OWNERAI) aiDeck.addCard(pile[i]);
 	}
 
 	pile.clear();

@@ -174,7 +174,7 @@ void Round::endRound(GameState& gs)
 	for (int i = gs.pile.getPile().size() - 1; i >= 0; i--)
 	{
 		if (gs.pile.getPile()[i]->getOwner() == PLAYER) gs.playerDeck.addCard(gs.playerHand.getHand()[i]);
-		else if (gs.pile.getPile()[i]->getOwner() == AI) gs.aiDeck.addCard(gs.aiHand.getHand()[i]);
+		else if (gs.pile.getPile()[i]->getOwner() == OWNERAI) gs.aiDeck.addCard(gs.aiHand.getHand()[i]);
 	}
 
 	// Clearing the pile and adding the cards back in their respective decks (check function)

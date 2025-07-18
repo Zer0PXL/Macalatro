@@ -1,10 +1,12 @@
 #include "Debug.hpp"
 #include "Table.hpp"
 #include "Hand.hpp"
+#include "AI.hpp"
 #include <iostream>
 
 bool debugMode = true;
 bool cheats = true;
+Difficulty difficulty = DUMB; //DUMB, SMART, CHEATER
 
 void Debug::toggleDebugMode()
 {

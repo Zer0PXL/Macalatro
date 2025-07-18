@@ -8,6 +8,7 @@
 #include "Table.hpp"
 #include "Round.hpp"
 #include "Debug.hpp"
+#include "AI.hpp"
 #include <memory>
 
 enum Choice
@@ -21,8 +22,9 @@ enum Choice
 int main()
 {
 	// Game objects
+	AI ai;
 	Deck playerDeck = Deck(PLAYER);
-	Deck aiDeck = Deck(AI);
+	Deck aiDeck = Deck(OWNERAI);
 	Hand playerHand;
 	Hand aiHand;
 	Table pile;
@@ -59,6 +61,9 @@ int main()
 
 				if (stringInput == "debug") Debug::toggleDebugMode();
 				if (stringInput == "cheats") Debug::toggleCheats();
+				if (debugMode && stringInput == "dumb") ai.changeDifficulty(DUMB);
+				if (debugMode && stringInput == "smart") ai.changeDifficulty(SMART);
+				if (debugMode && stringInput == "cheater") ai.changeDifficulty(CHEATER);
 
 				if (stringInput == "Play")
 				{
@@ -126,11 +131,13 @@ int main()
 					playing = false;
 					turn = AITURN;
 					break;
-				default:
-					std::cout << "Wrong action.\n";
-					break;
 				}
 			}
+		}
+
+		else
+		{
+			ai.playTurn(gs);
 		}
 	}
 
