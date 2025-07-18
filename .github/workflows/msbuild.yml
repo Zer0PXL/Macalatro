@@ -30,6 +30,19 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+     # Download SFML (example: version 2.5.1, Visual C++ 15 (2017) - 64-bit)
+    - name: Download SFML
+      run: |
+        curl -L -o sfml.zip https://www.sfml-dev.org/files/SFML-2.5.1-windows-vc15-64-bit.zip
+        unzip sfml.zip -d ${{ github.workspace }}
+  
+    # Set environment variables so MSBuild can find SFML
+    - name: Set SFML environment variables
+      run: |
+        echo "SFML_DIR=${{ github.workspace }}/SFML-2.5.1" >> $GITHUB_ENV
+        echo "INCLUDE=${{ github.workspace }}/SFML-2.5.1/include;$INCLUDE" >> $GITHUB_ENV
+        echo "LIB=${{ github.workspace }}/SFML-2.5.1/lib;$LIB" >> $GITHUB_ENV
+
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
