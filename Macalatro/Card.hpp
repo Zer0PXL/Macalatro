@@ -4,6 +4,16 @@
 struct GameState;
 enum Turn;
 
+enum Suit
+{
+	HEARTS,
+	SPADES,
+	DIAMONDS,
+	CLUBS,
+	BLACKJOKER,
+	REDJOKER
+};
+
 enum Owner
 {
 	PLAYER,
@@ -23,15 +33,15 @@ class Card
 {
 private:
 	int rank;
-	int suit;
+	Suit suit;
 	int id;
 	Owner owner;
 	Ability ability;
 public:
-	Card(int r, int s, int id, Owner o, Ability a);
+	Card(int r, Suit s, int id, Owner o, Ability a);
 	void print() const;
 	int getSuit() const;
-	void setSuit(int s);
+	void setSuit(Suit s);
 	int getRank() const;
 	void setRank(int r);
 	int getID() const;
@@ -41,4 +51,5 @@ public:
 	void setAbility(Ability a);
 	static bool isPlayable(std::shared_ptr<Card> cardToPlay, std::shared_ptr<Card> pileCard);
 	Turn actAbility(GameState& gs);
+	static Suit intToSuit(int interger);
 };

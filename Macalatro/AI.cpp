@@ -1,6 +1,32 @@
 #include "AI.hpp"
 #include "Debug.hpp"
 
+Suit AI::determineBestSuit()
+{
+	// Determine the bestSuit
+	if (heartCards.size() >= spadeCards.size() &&
+		heartCards.size() >= diamondCards.size() &&
+		heartCards.size() >= clubCards.size())
+		return HEARTS;
+	else if (spadeCards.size() >= heartCards.size() &&
+		spadeCards.size() >= diamondCards.size() &&
+		spadeCards.size() >= clubCards.size())
+		return SPADES;
+	else if (diamondCards.size() >= heartCards.size() &&
+		diamondCards.size() >= spadeCards.size() &&
+		diamondCards.size() >= clubCards.size())
+		return DIAMONDS;
+	else if (clubCards.size() >= heartCards.size() &&
+		clubCards.size() >= spadeCards.size() &&
+		clubCards.size() >= diamondCards.size())
+		return CLUBS;
+	else
+	{
+		std::cout << "[AI.cpp] X - The AI somehow doesn't have a best color!\n";
+		return HEARTS;
+	}
+}
+
 void AI::playTurn(GameState& gs)
 {
 	if (gs.turn == AITURN) Debug::log("============================\n", "[AI.cpp] The AI is thinking...\n", "============================");
@@ -23,7 +49,7 @@ void AI::playTurn(GameState& gs)
 			if (hand[i]->getRank() == -1) playable.push_back(hand[i]); // Jokers are always playable
 		}
 
-		std::shared_ptr<Card> temporaryCard = std::make_shared<Card>(0, 0, 0, NONE, BASIC);
+		std::shared_ptr<Card> temporaryCard = std::make_shared<Card>(0, HEARTS, 0, NONE, BASIC);
 		std::vector<std::shared_ptr<Card>> temporaryCards;
 
 		if (playable.size() < 1)
@@ -66,13 +92,141 @@ void AI::playTurn(GameState& gs)
 		// Priority queue-based gameplay.
 		// Gathers the legal cards into multiple vectors and plays what's best.
 		// Queue would look something like this:
-		//		1. Basic cards with no ability
-		//		2. Draw cards (2s, 3s, Jokers)
-		//		3. Color changers (Aces)
-		//		4. No cards? Just draw.
+		//		1. Skip cards (4s)
+		//		2. Basic cards with no ability
+		//		3. Draw cards (2s, 3s, Jokers)
+		//		4. Color changers (Aces)
+		//		5. No cards? Just draw.
 		// But, then, also bypassers:
 		//		1. If Player has Macao (a single card) play a Draw card.
 		//		2. If Player has Macao but you don't have Draw cards, change the color.
+
+		heartCards.clear();
+		spadeCards.clear();
+		diamondCards.clear();
+		clubCards.clear();
+		bestSuit.clear();
+
+		std::vector<std::shared_ptr<Card>> jokerCards;
+
+		std::vector<std::shared_ptr<Card>> skipCards;
+		std::vector<std::shared_ptr<Card>> basicCards;
+		std::vector<std::shared_ptr<Card>> drawCards;
+		std::vector<std::shared_ptr<Card>> colorCards;
+
+		// Split cards per color and if they're Jokers
+		for (int i = 0; i < gs.aiHand.getSize(); i++)
+		{
+			if (Card::isPlayable(gs.aiHand.getHand()[i], gs.pile.getCard()))
+			{
+				switch (gs.aiHand.getHand()[i]->getSuit())
+				{
+				case HEARTS:
+					heartCards.push_back(gs.aiHand.getHand()[i]);
+					break;
+				case SPADES:
+					spadeCards.push_back(gs.aiHand.getHand()[i]);
+					break;
+				case DIAMONDS:
+					diamondCards.push_back(gs.aiHand.getHand()[i]);
+					break;
+				case CLUBS:
+					clubCards.push_back(gs.aiHand.getHand()[i]);
+					break;
+				default:
+					jokerCards.push_back(gs.aiHand.getHand()[i]);
+					break;
+				}
+			}
+		}
+
+		// Determine the bestSuit (the color with the most cards)
+		switch (determineBestSuit())
+		{
+		case HEARTS:
+			bestSuit = heartCards;
+			break;
+		case SPADES:
+			bestSuit = spadeCards;
+			break;
+		case DIAMONDS:
+			bestSuit = diamondCards;
+			break;
+		case CLUBS:
+			bestSuit = clubCards;
+			break;
+		}
+
+		// Don't forget the Jokers!
+		for (int i = 0; i < jokerCards.size(); i++)
+		{
+			drawCards.push_back(jokerCards[i]);
+		}
+
+		// Split the cards of the biggest color based on ability
+		for (int i = 0; i < bestSuit.size(); i++)
+		{
+			switch (bestSuit[i]->getAbility())
+			{
+			case SKIP:
+				skipCards.push_back(bestSuit[i]);
+				break;
+			case DRAWABILITY:
+				drawCards.push_back(bestSuit[i]);
+				break;
+			case COLOR:
+				colorCards.push_back(bestSuit[i]);
+				break;
+			default:
+				basicCards.push_back(bestSuit[i]);
+				break;
+			}
+		}
+
+		// ======== BYPASSERS ========
+		// If the Player has Macao, AI should attempt to mess up the Player's lead.
+		if (gs.playerHand.getSize() < 2 && !drawCards.empty()) 
+		{
+			gs.turn = drawCards[0]->actAbility(gs);
+			gs.pile.addMultiCard(gs.aiHand.playMultiCard(drawCards));
+		}
+		else if (gs.playerHand.getSize() < 2 && !colorCards.empty()) 
+		{
+			gs.turn = colorCards[0]->actAbility(gs);
+			gs.pile.addMultiCard(gs.aiHand.playMultiCard(colorCards));
+		}
+		// Play based on the priority queue
+		else if (!skipCards.empty()) 
+		{
+			gs.turn = skipCards[0]->actAbility(gs);
+			gs.pile.addMultiCard(gs.aiHand.playMultiCard(skipCards));
+		}
+		else if (!basicCards.empty()) 
+		{
+			gs.turn = basicCards[0]->actAbility(gs);
+			gs.pile.addMultiCard(gs.aiHand.playMultiCard(basicCards));
+		}
+		else if (!drawCards.empty()) 
+		{
+			gs.turn = drawCards[0]->actAbility(gs);
+			gs.pile.addMultiCard(gs.aiHand.playMultiCard(drawCards));
+		}
+		else if (!colorCards.empty()) 
+		{
+			gs.turn = colorCards[0]->actAbility(gs);
+			gs.pile.addMultiCard(gs.aiHand.playMultiCard(colorCards));
+		}
+		else 
+		{
+			gs.aiHand.addCard(gs.aiDeck.draw());
+			gs.turn = PLAYERTURN;
+		}
+
+		jokerCards.clear();
+		skipCards.clear();
+		basicCards.clear();
+		drawCards.clear();
+		colorCards.clear();
 	}
 	else if (difficulty == CHEATER)
 	{

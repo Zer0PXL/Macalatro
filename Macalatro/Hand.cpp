@@ -13,7 +13,7 @@ std::shared_ptr<Card> Hand::playCard(const std::shared_ptr<Card> card)
 {
 	int size = hand.size();
 	int cardID = -1;
-	Card invalidCard(0, 0, -1, NONE, BASIC);
+	Card invalidCard(0, HEARTS, -1, NONE, BASIC);
 
 	for (int i = 0; i < size; i++)
 	{
@@ -65,7 +65,7 @@ std::vector<std::shared_ptr<Card>> Hand::playMultiCard(const std::vector<std::sh
 	{
 		Debug::log("! - No cards for playMultiCards (how?)");
 
-		toPlay = { std::make_shared<Card>(0, 0, -1, NONE, BASIC) };
+		toPlay = { std::make_shared<Card>(0, HEARTS, -1, NONE, BASIC) };
 
 		return toPlay;
 	}

@@ -6,7 +6,7 @@
 
 bool debugMode = true;
 bool cheats = true;
-Difficulty difficulty = DUMB; //DUMB, SMART, CHEATER
+Difficulty difficulty = SMART; //DUMB, SMART, CHEATER
 
 void Debug::toggleDebugMode()
 {
@@ -28,7 +28,7 @@ void Debug::logTurn(Table& pile, Hand& playerHand, Hand& aiHand)
 
 		if (cheats)
 		{
-			std::cout << "AI hand: ";
+			std::cout << "AI hand:\n";
 			for (int i = 0; i < aiHand.getHand().size(); i++)
 			{
 				aiHand.getHand()[i]->print();
@@ -37,7 +37,7 @@ void Debug::logTurn(Table& pile, Hand& playerHand, Hand& aiHand)
 			std::cout << "\n";
 		}
 
-		std::cout << "Player hand: ";
+		std::cout << "Player hand:\n";
 		for (int i = 0; i < playerHand.getHand().size(); i++)
 		{
 			playerHand.getHand()[i]->print();

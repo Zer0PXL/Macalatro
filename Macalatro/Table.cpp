@@ -1,6 +1,7 @@
 #include "Table.hpp"
 #include "Deck.hpp"
 #include "Debug.hpp"
+#include <string>
 #include <vector>
 #include <iostream>
 
@@ -11,6 +12,7 @@ Table::Table()
 
 void Table::addCard(std::shared_ptr<Card> card)
 {
+	Debug::log("Added to pile: "); card->print();
 	pile.push_back(card);
 }
 
@@ -32,7 +34,7 @@ std::shared_ptr<Card> Table::getCard()
 	{
 		Debug::log("!- 0 cards in pile!(how?)");
 
-		return std::make_shared<Card>(5, 0, -2, NONE, BASIC);
+		return std::make_shared<Card>(5, HEARTS, -2, NONE, BASIC);
 	}
 }
 

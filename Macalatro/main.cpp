@@ -127,7 +127,15 @@ int main()
 
 					break;
 				case DRAW:
-					playerHand.addCard(playerDeck.draw());
+				if (!(gs.playerDeck.getSize() < 1))
+				{
+					gs.playerHand.addCard(playerDeck.draw());
+				}
+				else
+				{
+					playing = false;
+					gameOver = NOPLAYERDECK;
+				}
 					playing = false;
 					turn = AITURN;
 					break;

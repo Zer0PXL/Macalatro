@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-Card::Card(int r, int s, int id, Owner o, Ability a) : rank(r), suit(s), id(id), owner(o), ability (a) {}
+Card::Card(int r, Suit s, int id, Owner o, Ability a) : rank(r), suit(s), id(id), owner(o), ability (a) {}
 
 void Card::print() const
 {
@@ -13,8 +13,8 @@ void Card::print() const
 	else if (suit == 1) std::cout << id << " is a " << rank << " of Spades belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
 	else if (suit == 2) std::cout << id << " is a " << rank << " of Diamonds belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
 	else if (suit == 3) std::cout << id << " is a " << rank << " of Clubs belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-	else if (suit == -1) std::cout << id << " is a Black Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-	else if (suit == -2) std::cout << id << " is a Red Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
+	else if (suit == 4) std::cout << id << " is a Black Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
+	else if (suit == 5) std::cout << id << " is a Red Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
 	else Debug::log("! - That card invalid af (as frick)");
 
 	// Note to self, don't be a fucking idiot.
@@ -32,7 +32,7 @@ int Card::getSuit() const
 	return suit;
 }
 
-void Card::setSuit(int s)
+void Card::setSuit(Suit s)
 {
 	suit = s;
 }
@@ -66,11 +66,12 @@ bool Card::isPlayable(std::shared_ptr<Card> cardToPlay, std::shared_ptr<Card> pi
 {
 	if (cardToPlay->getRank() == pileCard->getRank() || // IF the card you're about to play has the same rank
 		cardToPlay->getSuit() == pileCard->getSuit() || // OR the cards have the same suit
-		cardToPlay->getRank() == -1) // OR the card is a Joker
+		cardToPlay->getRank() == -1 || // OR the card to play is a Joker
+		pileCard->getRank() == -1) // OR the card on the pile is a Joker
 	{
 		return true; // Then, yeah, it's playable :thumbs up:
 	}
-	else return false; // Otherwise, can't play random cards :sad:
+	else return false; // Otherwise, you can't play random cards :sad:
 }
 
 Ability Card::getAbility() const
@@ -92,7 +93,6 @@ Turn Card::actAbility(GameState& gs)
 	{
 		targetHand = &gs.aiHand;
 		targetDeck = &gs.aiDeck;
-		gs.turn = AITURN;
 	}
 	
 	switch (ability)
@@ -131,14 +131,14 @@ Turn Card::actAbility(GameState& gs)
 		if (owner == PLAYER)
 		{
 			std::string stringInput;
-			int suitToChangeTo = 0;
+			Suit suitToChangeTo = HEARTS;
 			std::cout << "What suit do you want? (hearts, spades, diamonds, clubs)";
 			std::cin >> stringInput;
 
-			if (stringInput == "hearts") suitToChangeTo = 0;
-			else if (stringInput == "spades") suitToChangeTo = 1;
-			else if (stringInput == "diamonds") suitToChangeTo = 2;
-			else if (stringInput == "clubs") suitToChangeTo = 3;
+			if (stringInput == "hearts") suitToChangeTo = HEARTS;
+			else if (stringInput == "spades") suitToChangeTo = SPADES;
+			else if (stringInput == "diamonds") suitToChangeTo = DIAMONDS;
+			else if (stringInput == "clubs") suitToChangeTo = CLUBS;
 			else std::cout << "That's not a suit!";
 
 			gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
@@ -148,7 +148,27 @@ Turn Card::actAbility(GameState& gs)
 		else
 		{
 			// Yeah, I'm not programming anything interesting rn. Later, when I'll have to make a proper AI.
-			int randomSuit = Chance::chance(0, 3);
+			int randomChance = Chance::chance(0, 3);
+			Suit randomSuit;
+			switch (randomChance)
+			{
+			case 0:
+				randomSuit = HEARTS;
+				break;
+			case 1:
+				randomSuit = SPADES;
+				break;
+			case 2:
+				randomSuit = DIAMONDS;
+				break;
+			case 3:
+				randomSuit = CLUBS;
+				break;
+			default:
+				randomSuit = HEARTS;
+				std::cout << "X - Random chance broken???\n";
+				break;
+			}
 
 			gs.pile.addCard(std::make_shared<Card>(1, randomSuit, 0, NONE, BASIC));
 
@@ -170,6 +190,29 @@ Turn Card::actAbility(GameState& gs)
 		}
 		else gs.turn = PLAYERTURN;
 		return gs.turn;
+		break;
+	}
+}
+
+Suit Card::intToSuit(int interger)
+{
+	switch (interger)
+	{
+	case 0:
+		return HEARTS;
+		break;
+	case 1:
+		return SPADES;
+		break;
+	case 2:
+		return DIAMONDS;
+		break;
+	case 3:
+		return CLUBS;
+		break;
+	default:
+		std::cout << "X - Invalid interger for intToSuit()\n";
+		return HEARTS;
 		break;
 	}
 }
