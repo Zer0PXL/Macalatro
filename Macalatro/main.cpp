@@ -175,5 +175,8 @@ int main()
 					break;
     }
 
+	std::cout << "Press enter to continue...";
+	std::cin >> stringInput;
+
 	return 0;
 }
