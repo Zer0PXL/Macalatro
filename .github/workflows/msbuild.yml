@@ -39,9 +39,10 @@ jobs:
     # Set environment variables so MSBuild can find SFML
     - name: Set SFML environment variables
       run: |
-        echo "SFML_DIR=${{ github.workspace }}/SFML-2.5.1" >> $GITHUB_ENV
-        echo "INCLUDE=${{ github.workspace }}/SFML-2.5.1/include;$INCLUDE" >> $GITHUB_ENV
-        echo "LIB=${{ github.workspace }}/SFML-2.5.1/lib;$LIB" >> $GITHUB_ENV
+        rename SFML-2.5.1 SFML
+        echo "SFML_DIR=${{ github.workspace }}/SFML" >> $GITHUB_ENV
+        echo "INCLUDE=${{ github.workspace }}/SFML/include;$INCLUDE" >> $GITHUB_ENV
+        echo "LIB=${{ github.workspace }}/SFML/lib;$LIB" >> $GITHUB_ENV
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
