@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.14)
 project(Macalatro LANGUAGES CXX)
 
+# SFML
+find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
+target_link_libraries(your_target sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
+
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
