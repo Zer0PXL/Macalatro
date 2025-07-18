@@ -29,9 +29,11 @@ Suit AI::determineBestSuit()
 
 void AI::playTurn(GameState& gs)
 {
-	if (gs.turn == AITURN) Debug::log("============================\n", "[AI.cpp] The AI is thinking...\n", "============================");
-	else Debug::log("[AI.cpp] X - It's not the AI's turn, but somehow, it's playing???");
+//	if (gs.turn == AITURN) Debug::log("============================\n", "[AI.cpp] The AI is thinking...\n", "============================");
+//	else Debug::log("[AI.cpp] X - It's not the AI's turn, but somehow, it's playing???");
 	
+	std::cout << "============================\n" << "The AI is thinking...\n" << "============================\n";
+
 	if (difficulty == DUMB)
 	{
 		// Just plays the first legal card(s), if it can't play anything, just draw.
@@ -218,6 +220,7 @@ void AI::playTurn(GameState& gs)
 		}
 		else 
 		{
+			std::cout << "The AI draws a card...\n";
 			gs.aiHand.addCard(gs.aiDeck.draw());
 			gs.turn = PLAYERTURN;
 		}
@@ -233,7 +236,8 @@ void AI::playTurn(GameState& gs)
 		gs.gameOver = AIWIN;
 	}
 
-	Debug::log("============================\n", "[AI.cpp] AI's turn is over\n", "============================");
+//	Debug::log("============================\n", "[AI.cpp] AI's turn is over\n", "============================");
+	std::cout << "============================\n" << "AI's turn is over\n" << "============================\n";
 }
 
 void AI::changeDifficulty(Difficulty newDifficulty)

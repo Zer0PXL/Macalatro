@@ -171,10 +171,10 @@ void Round::endRound(GameState& gs)
 	}
 	gs.aiHand.getHand().clear();
 
-	for (int i = gs.pile.getPile().size() - 1; i >= 0; i--)
+	for (int i = 0; i < gs.pile.getPile().size(); i++)
 	{
-		if (gs.pile.getPile()[i]->getOwner() == PLAYER) gs.playerDeck.addCard(gs.playerHand.getHand()[i]);
-		else if (gs.pile.getPile()[i]->getOwner() == OWNERAI) gs.aiDeck.addCard(gs.aiHand.getHand()[i]);
+		if (gs.pile.getPile()[i]->getOwner() == PLAYER) gs.playerDeck.addCard(gs.pile.getPile()[i]);
+		else if (gs.pile.getPile()[i]->getOwner() == OWNERAI) gs.aiDeck.addCard(gs.pile.getPile()[i]);
 	}
 
 	// Clearing the pile and adding the cards back in their respective decks (check function)

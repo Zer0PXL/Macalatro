@@ -106,19 +106,52 @@ Turn Card::actAbility(GameState& gs)
 		case 2:
 			for (int i = 1; i <= 2; i++)
 			{
-				targetHand->addCard(targetDeck->draw());
+				if (targetDeck->getSize() > 0)
+				{
+					targetHand->addCard(targetDeck->draw());
+				}
+				else
+				{
+					if (targetHand->getHand()[0]->getOwner() == PLAYER)
+					{
+						gs.gameOver = NOPLAYERDECK;
+					}
+					else gs.gameOver = NOAIDECK;
+				}
 			}
 			break;
 		case 3:
 			for (int i = 1; i <= 3; i++)
 			{
-				targetHand->addCard(targetDeck->draw());
+				if (targetDeck->getSize() > 0)
+				{
+					targetHand->addCard(targetDeck->draw());
+				}
+				else
+				{
+					if (targetHand->getHand()[0]->getOwner() == PLAYER)
+					{
+						gs.gameOver = NOPLAYERDECK;
+					}
+					else gs.gameOver = NOAIDECK;
+				}
 			}
 			break;
 		case -1:
 			for (int i = 1; i <= 5; i++)
 			{
-				targetHand->addCard(targetDeck->draw());
+				if (targetDeck->getSize() > 0)
+				{
+					targetHand->addCard(targetDeck->draw());
+				}
+				else
+				{
+					if (targetHand->getHand()[0]->getOwner() == PLAYER)
+					{
+						gs.gameOver = NOPLAYERDECK;
+					}
+					else gs.gameOver = NOAIDECK;
+				}
 			}
 			break;
 		default:

@@ -1,6 +1,7 @@
 #include "Deck.hpp"
 #include "Card.hpp"
 #include "Debug.hpp"
+#include "Round.hpp"
 #include <random>
 #include <vector>
 #include <iostream>
@@ -15,7 +16,6 @@ std::shared_ptr<Card> Deck::draw()
 	if (cards.size() < 1)
 	{
 		Debug::log("[Deck.cpp] X - No cards in deck! Can't draw!");
-		return nullptr;
 	}
 
 	std::shared_ptr<Card> drawn = cards.back();

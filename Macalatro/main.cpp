@@ -55,26 +55,26 @@ int main()
 
 			while (playing)
 			{
-				std::cout << "What would you like to do? Play or Draw: ";
+				std::cout << "What would you like to do? play or draw: ";
 
 				std::cin >> stringInput;
 
 				if (stringInput == "debug") Debug::toggleDebugMode();
 				if (stringInput == "cheats") Debug::toggleCheats();
-				if (debugMode && stringInput == "dumb") ai.changeDifficulty(DUMB);
-				if (debugMode && stringInput == "smart") ai.changeDifficulty(SMART);
-				if (debugMode && stringInput == "cheater") ai.changeDifficulty(CHEATER);
+				if (debugMode && stringInput == "difficulty=dumb") ai.changeDifficulty(DUMB);
+				if (debugMode && stringInput == "difficulty=smart") ai.changeDifficulty(SMART);
+				if (debugMode && stringInput == "difficulty=cheater") ai.changeDifficulty(CHEATER);
 
-				if (stringInput == "Play")
+				if (stringInput == "play")
 				{
-					std::cout << "How many cards would you like to play? One or More: ";
+					std::cout << "How many cards would you like to play? one or more: ";
 
 					std::cin >> stringInput;
 
-					if (stringInput == "One") choice = PLAY;
+					if (stringInput == "one") choice = PLAY;
 					else choice = PLAYMULTI;
 				}
-				else if (stringInput == "Draw") choice = DRAW;
+				else if (stringInput == "draw") choice = DRAW;
 
 				switch (choice)
 				{

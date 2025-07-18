@@ -12,7 +12,6 @@ Table::Table()
 
 void Table::addCard(std::shared_ptr<Card> card)
 {
-	Debug::log("Added to pile: "); card->print();
 	pile.push_back(card);
 }
 

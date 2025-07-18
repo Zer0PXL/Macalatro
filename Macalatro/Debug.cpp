@@ -36,6 +36,12 @@ void Debug::logTurn(Table& pile, Hand& playerHand, Hand& aiHand)
 
 			std::cout << "\n";
 		}
+		else
+		{
+			std::cout << "AI has " << aiHand.getSize() << " cards.\n";
+
+			std::cout << "\n";
+		}
 
 		std::cout << "Player hand:\n";
 		for (int i = 0; i < playerHand.getHand().size(); i++)
