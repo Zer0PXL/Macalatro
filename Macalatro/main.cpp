@@ -21,6 +21,8 @@ enum Choice
 
 int main()
 {
+	std::cout << "Macalatro CLI v1.1\n";
+	
 	// Game objects
 	AI ai;
 	Deck playerDeck = Deck(PLAYER);
@@ -45,7 +47,7 @@ int main()
 	// Begining of game loop
 	while (round.isGameOver(gs) == NOTOVER)
 	{	
-		Debug::logTurn(pile, playerHand, aiHand);
+		Debug::logTurn(gs.pile, gs.playerHand, gs.aiHand);
 	
 		if (turn == PLAYERTURN)
 		{
@@ -64,20 +66,24 @@ int main()
 				if (debugMode && stringInput == "difficulty=dumb") ai.changeDifficulty(DUMB);
 				if (debugMode && stringInput == "difficulty=smart") ai.changeDifficulty(SMART);
 				if (debugMode && stringInput == "difficulty=cheater") ai.changeDifficulty(CHEATER);
+				if (debugMode && stringInput == "logturn") Debug::logTurn(gs.pile, gs.playerHand, gs.aiHand);
 
 				if (stringInput == "play")
 				{
-					std::cout << "How many cards would you like to play? one or more: ";
+					/*std::cout << "How many cards would you like to play? one or more: ";
 
 					std::cin >> stringInput;
 
 					if (stringInput == "one") choice = PLAY;
-					else choice = PLAYMULTI;
+					else choice = PLAYMULTI;*/
+
+					choice = PLAYMULTI;
 				}
 				else if (stringInput == "draw") choice = DRAW;
 
 				switch (choice)
 				{
+				// Deprecate
 				case PLAY:
 					std::cout << "Play what? Give ID: ";
 					std::cin >> intInput;
@@ -99,6 +105,7 @@ int main()
 
 					if (playing) std::cout << "Couldn't play that card!\n";
 					break;
+
 				case PLAYMULTI:
 					std::cout << "Play what? Give IDs, then type -1: ";
 
@@ -119,7 +126,8 @@ int main()
 
 					if (Card::isPlayable(multiPlay[0], pile.getCard()))
 					{
-						pile.addMultiCard(playerHand.playMultiCard(multiPlay));
+						
+						pile.addMultiCard(playerHand.playCards(multiPlay));
 						playing = false;
 					}
 

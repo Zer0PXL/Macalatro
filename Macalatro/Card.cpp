@@ -9,13 +9,26 @@ Card::Card(int r, Suit s, int id, Owner o, Ability a) : rank(r), suit(s), id(id)
 
 void Card::print() const
 {
-	if (suit == 0) std::cout << id << " is a " << rank << " of Hearts belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-	else if (suit == 1) std::cout << id << " is a " << rank << " of Spades belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-	else if (suit == 2) std::cout << id << " is a " << rank << " of Diamonds belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-	else if (suit == 3) std::cout << id << " is a " << rank << " of Clubs belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-	else if (suit == 4) std::cout << id << " is a Black Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-	else if (suit == 5) std::cout << id << " is a Red Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-	else Debug::log("! - That card invalid af (as frick)");
+	if (debugMode)
+	{
+		if (suit == 0) std::cout << id << " is a " << rank << " of Hearts belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
+		else if (suit == 1) std::cout << id << " is a " << rank << " of Spades belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
+		else if (suit == 2) std::cout << id << " is a " << rank << " of Diamonds belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
+		else if (suit == 3) std::cout << id << " is a " << rank << " of Clubs belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
+		else if (suit == 4) std::cout << id << " is a Black Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
+		else if (suit == 5) std::cout << id << " is a Red Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
+		else Debug::log("! - That card invalid af (as frick)");
+	}
+	else
+	{
+		if (suit == 0) std::cout << id << " is a " << rank << " of Hearts" << std::endl;
+		else if (suit == 1) std::cout << id << " is a " << rank << " of Spades" << std::endl;
+		else if (suit == 2) std::cout << id << " is a " << rank << " of Diamonds" << std::endl;
+		else if (suit == 3) std::cout << id << " is a " << rank << " of Clubs" << std::endl;
+		else if (suit == 4) std::cout << id << " is a Black Joker" << std::endl;
+		else if (suit == 5) std::cout << id << " is a Red Joker " << std::endl;
+		else Debug::log("! - That card invalid af (as frick)");
+	}
 
 	// Note to self, don't be a fucking idiot.
 	/*if (suit == 0) { Debug::log(std::to_string(id), " is a ", std::to_string(rank), " of Hearts belonging to ", std::to_string(owner)); std::cout << std::endl; }

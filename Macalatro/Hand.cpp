@@ -3,22 +3,28 @@
 #include "Debug.hpp"
 #include <iostream>
 #include <vector>
+#include <string>
 
 void Hand::addCard(std::shared_ptr<Card> card)
 {
 	hand.push_back(card);
 }
 
+// Deprecated
 std::shared_ptr<Card> Hand::playCard(const std::shared_ptr<Card> card)
 {
+	Debug::log("[Hand.cpp] ! - Use of deprecated function! Use playCards instead!");
+	
 	int size = hand.size();
 	int cardID = -1;
 	Card invalidCard(0, HEARTS, -1, NONE, BASIC);
 
 	for (int i = 0; i < size; i++)
 	{
+		Debug::log("[Hand.cpp] Searching for card with ID ", std::to_string(card->getID()));
 		if (hand[i]->getID() == card->getID())
 		{
+			Debug::log("[Hand.cpp] Found card!"); hand[i]->print();
 			cardID = i;
 			break;
 		}
@@ -34,15 +40,19 @@ std::shared_ptr<Card> Hand::playCard(const std::shared_ptr<Card> card)
 	{
 		auto& playedCard = hand[cardID];
 		
+		Debug::log("[Hand.cpp] Playing card..."); hand[cardID]->print();
+
 		std::cout << "Played a "; playedCard->print();
 
 		hand.erase(hand.begin() + cardID);
+
+		Debug::log("[Hand.cpp] Deleted card from hand. Card is:"); playedCard->print();
 
 		return playedCard;
 	}
 }
 
-std::vector<std::shared_ptr<Card>> Hand::playMultiCard(const std::vector<std::shared_ptr<Card>> cards)
+std::vector<std::shared_ptr<Card>> Hand::playCards(const std::vector<std::shared_ptr<Card>> cards)
 {
 	std::vector<std::shared_ptr<Card>> toPlay;
 	std::vector<int> toBeDeleted;

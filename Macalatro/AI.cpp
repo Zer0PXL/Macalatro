@@ -82,7 +82,7 @@ void AI::playTurn(GameState& gs)
 					temporaryCards.push_back(playable[i]);
 				}
 			}
-			gs.pile.addMultiCard(gs.aiHand.playMultiCard(playable));
+			gs.pile.addMultiCard(gs.aiHand.playCards(playable));
 			for (int i = 0; i < temporaryCards.size(); i++)
 			{
 				gs.turn = temporaryCards[i]->actAbility(gs);
@@ -190,33 +190,33 @@ void AI::playTurn(GameState& gs)
 		if (gs.playerHand.getSize() < 2 && !drawCards.empty()) 
 		{
 			gs.turn = drawCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playMultiCard(drawCards));
+			gs.pile.addMultiCard(gs.aiHand.playCards(drawCards));
 		}
 		else if (gs.playerHand.getSize() < 2 && !colorCards.empty()) 
 		{
 			gs.turn = colorCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playMultiCard(colorCards));
+			gs.pile.addMultiCard(gs.aiHand.playCards(colorCards));
 		}
 		// Play based on the priority queue
 		else if (!skipCards.empty()) 
 		{
 			gs.turn = skipCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playMultiCard(skipCards));
+			gs.pile.addMultiCard(gs.aiHand.playCards(skipCards));
 		}
 		else if (!basicCards.empty()) 
 		{
 			gs.turn = basicCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playMultiCard(basicCards));
+			gs.pile.addMultiCard(gs.aiHand.playCards(basicCards));
 		}
 		else if (!drawCards.empty()) 
 		{
 			gs.turn = drawCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playMultiCard(drawCards));
+			gs.pile.addMultiCard(gs.aiHand.playCards(drawCards));
 		}
 		else if (!colorCards.empty()) 
 		{
 			gs.turn = colorCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playMultiCard(colorCards));
+			gs.pile.addMultiCard(gs.aiHand.playCards(colorCards));
 		}
 		else 
 		{

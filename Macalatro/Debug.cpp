@@ -20,38 +20,36 @@ void Debug::toggleDebugMode()
 
 void Debug::logTurn(Table& pile, Hand& playerHand, Hand& aiHand)
 {
-	//if (debugMode)
-	//{
-		std::cout << "Pile card: "; pile.getCard()->print();
+	std::cout << "\n";
+	
+	std::cout << "Pile card: "; pile.getCard()->print();
 
-		std::cout << "\n";
+	std::cout << "\n";
 
-		if (cheats)
+	if (cheats)
+	{
+		std::cout << "AI hand:\n";
+		for (int i = 0; i < aiHand.getHand().size(); i++)
 		{
-			std::cout << "AI hand:\n";
-			for (int i = 0; i < aiHand.getHand().size(); i++)
-			{
-				aiHand.getHand()[i]->print();
-			}
-
-			std::cout << "\n";
-		}
-		else
-		{
-			std::cout << "AI has " << aiHand.getSize() << " cards.\n";
-
-			std::cout << "\n";
-		}
-
-		std::cout << "Player hand:\n";
-		for (int i = 0; i < playerHand.getHand().size(); i++)
-		{
-			playerHand.getHand()[i]->print();
+			aiHand.getHand()[i]->print();
 		}
 
 		std::cout << "\n";
-	//}
-	//else return;
+	}
+	else
+	{
+		std::cout << "AI has " << aiHand.getSize() << " cards.\n";
+
+		std::cout << "\n";
+	}
+
+	std::cout << "Player hand:\n";
+	for (int i = 0; i < playerHand.getHand().size(); i++)
+	{
+		playerHand.getHand()[i]->print();
+	}
+
+	std::cout << "\n";
 }
 
 void Debug::log(std::string text1, std::string text2, std::string text3, std::string text4, std::string text5)
