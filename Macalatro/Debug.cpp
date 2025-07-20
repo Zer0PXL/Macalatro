@@ -1,11 +1,12 @@
 #include "Debug.hpp"
 #include "Table.hpp"
 #include "Hand.hpp"
+#include "Round.hpp"
 #include "AI.hpp"
 #include <iostream>
 
-bool debugMode = false;
-bool cheats = false;
+bool debugMode = true;
+bool cheats = true;
 Difficulty difficulty = SMART; //DUMB, SMART, CHEATER
 
 void Debug::toggleDebugMode()
@@ -18,35 +19,44 @@ void Debug::toggleDebugMode()
 	}
 }
 
-void Debug::logTurn(Table& pile, Hand& playerHand, Hand& aiHand)
+void Debug::logTurn(GameState& gs)
 {
+	if (gs.turn == PLAYERTURN)
+	{
+		log("i - It's the Player's turn.");
+	}
+	else
+	{
+		log("i - It's the AI's turn");
+	}
+	
 	std::cout << "\n";
 	
-	std::cout << "Pile card: "; pile.getCard()->print();
+	std::cout << "Pile card: "; gs.pile.getCard()->print();
 
 	std::cout << "\n";
 
 	if (cheats)
 	{
 		std::cout << "AI hand:\n";
-		for (int i = 0; i < aiHand.getHand().size(); i++)
+		for (int i = 0; i < gs.aiHand.getHand().size(); i++)
 		{
-			aiHand.getHand()[i]->print();
+			gs.aiHand.getHand()[i]->print();
 		}
 
 		std::cout << "\n";
 	}
 	else
 	{
-		std::cout << "AI has " << aiHand.getSize() << " cards.\n";
+		std::cout << "AI has " << gs.aiHand.getSize() << " cards.\n";
 
 		std::cout << "\n";
 	}
 
 	std::cout << "Player hand:\n";
-	for (int i = 0; i < playerHand.getHand().size(); i++)
+	for (int i = 0; i < gs.playerHand.getHand().size(); i++)
 	{
-		playerHand.getHand()[i]->print();
+		gs.playerHand.getHand()[i]->print();
 	}
 
 	std::cout << "\n";

@@ -1,5 +1,7 @@
 #pragma once
-#include "Round.hpp"
+#include "Card.hpp"
+#include <vector>
+#include <memory>
 
 enum Difficulty
 {
@@ -7,8 +9,6 @@ enum Difficulty
 	SMART,
 	CHEATER
 };
-
-extern Difficulty difficulty;
 
 class AI
 {
@@ -18,9 +18,12 @@ private:
 	std::vector<std::shared_ptr<Card>> diamondCards;
 	std::vector<std::shared_ptr<Card>> clubCards;
 	std::vector<std::shared_ptr<Card>> bestSuit;
+
+	Difficulty difficulty = SMART;
 public:
 	void changeDifficulty(Difficulty difficulty);
 	void playTurn(GameState& gs);
 	Suit determineBestSuit();
+	Difficulty getDifficulty();
 };
 

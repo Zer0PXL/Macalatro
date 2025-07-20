@@ -2,6 +2,7 @@
 #include "Deck.hpp"
 #include "Hand.hpp"
 #include "Table.hpp"
+#include "AI.hpp"
 #include <memory>
 
 extern int roundNum;
@@ -30,8 +31,9 @@ struct GameState
 	Table& pile;
 	Turn& turn;
 	GameOver& gameOver;
+	AI& ai;
 
-	GameState(Deck& pDeck, Deck& aDeck, Hand& pHand, Hand& aHand, Table& _pile, Turn& _turn, GameOver& gO) : playerDeck(pDeck), aiDeck(aDeck), playerHand(pHand), aiHand(aHand), pile(_pile), turn(_turn), gameOver(gO) {}
+	GameState(Deck& pDeck, Deck& aDeck, Hand& pHand, Hand& aHand, Table& _pile, Turn& _turn, GameOver& gO, AI& AI) : playerDeck(pDeck), aiDeck(aDeck), playerHand(pHand), aiHand(aHand), pile(_pile), turn(_turn), gameOver(gO), ai(AI) {}
 };
 
 class Round
@@ -42,5 +44,6 @@ public:
 	Round(GameState& gs);
 	GameOver isGameOver(GameState& gs);
 	void endRound(GameState& gs);
+	void switchTurn(GameState& gs);
 };
 

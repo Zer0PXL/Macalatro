@@ -41,16 +41,18 @@ int main()
 	bool playing = true;
 
 	// GameState and Round creation
-	GameState gs{ playerDeck, aiDeck, playerHand, aiHand, pile, turn, gameOver };
+	GameState gs{ playerDeck, aiDeck, playerHand, aiHand, pile, turn, gameOver, ai };
 	Round round = Round(gs);
 
 	// Begining of game loop
 	while (round.isGameOver(gs) == NOTOVER)
 	{	
-		Debug::logTurn(gs.pile, gs.playerHand, gs.aiHand);
+		Debug::logTurn(gs);
 	
 		if (turn == PLAYERTURN)
 		{
+			round.switchTurn(gs);
+
 			std::cout << "It's your turn!\n";
 
 			playing = true;
@@ -61,12 +63,36 @@ int main()
 
 				std::cin >> stringInput;
 
-				if (stringInput == "debug") Debug::toggleDebugMode();
-				if (stringInput == "cheats") Debug::toggleCheats();
-				if (debugMode && stringInput == "difficulty=dumb") ai.changeDifficulty(DUMB);
-				if (debugMode && stringInput == "difficulty=smart") ai.changeDifficulty(SMART);
-				if (debugMode && stringInput == "difficulty=cheater") ai.changeDifficulty(CHEATER);
-				if (debugMode && stringInput == "logturn") Debug::logTurn(gs.pile, gs.playerHand, gs.aiHand);
+				if (stringInput == "debug") 
+				{
+					Debug::toggleDebugMode();
+					choice = INVALID;
+				}
+				if (stringInput == "cheats") 
+				{
+					Debug::toggleCheats();
+					choice = INVALID;
+				}
+				if (debugMode && stringInput == "difficulty=dumb") 
+				{
+					gs.ai.changeDifficulty(DUMB);
+					choice = INVALID;
+				}
+				if (debugMode && stringInput == "difficulty=smart") 
+				{
+					gs.ai.changeDifficulty(SMART);
+					choice = INVALID;
+				}
+				if (debugMode && stringInput == "difficulty=cheater") 
+				{
+					gs.ai.changeDifficulty(CHEATER);
+					choice = INVALID;
+				}
+				if (debugMode && stringInput == "logturn") 
+				{
+					Debug::logTurn(gs);
+					choice = INVALID;
+				}
 
 				if (stringInput == "play")
 				{
@@ -84,7 +110,7 @@ int main()
 				switch (choice)
 				{
 				// Deprecate
-				case PLAY:
+				/*case PLAY:
 					std::cout << "Play what? Give ID: ";
 					std::cin >> intInput;
 
@@ -95,7 +121,7 @@ int main()
 							// If the card's rank or suit matches the pile's top card, then play it.
 							if (Card::isPlayable(playerHand.getHand()[i], pile.getCard()))
 							{
-								turn = playerHand.getHand()[i]->actAbility(gs);
+								playerHand.getHand()[i]->actAbility(gs);
 								pile.addCard(playerHand.playCard(playerHand.getHand()[i]));
 								playing = false;
 							}
@@ -104,7 +130,7 @@ int main()
 					}
 
 					if (playing) std::cout << "Couldn't play that card!\n";
-					break;
+					break;*/
 
 				case PLAYMULTI:
 					std::cout << "Play what? Give IDs, then type -1: ";
@@ -116,7 +142,7 @@ int main()
 						{
 							if (playerHand.getHand()[i]->getID() == intInput)
 							{
-								turn = playerHand.getHand()[i]->actAbility(gs);
+								playerHand.getHand()[i]->actAbility(gs);
 								multiPlay.push_back(playerHand.getHand()[i]);
 
 								break;
@@ -124,10 +150,9 @@ int main()
 						}
 					} while (intInput != -1);
 
-					if (Card::isPlayable(multiPlay[0], pile.getCard()))
+					if (!multiPlay.empty())
 					{
-						
-						pile.addMultiCard(playerHand.playCards(multiPlay));
+						playerHand.playCards(multiPlay, gs);
 						playing = false;
 					}
 
@@ -135,25 +160,23 @@ int main()
 
 					break;
 				case DRAW:
-				if (!(gs.playerDeck.getSize() < 1))
-				{
-					gs.playerHand.addCard(playerDeck.draw());
-				}
-				else
-				{
+					if (!(gs.playerDeck.getSize() < 1))
+					{
+						gs.playerHand.addCard(playerDeck.draw());
+					}
+					else
+					{
+						gameOver = NOPLAYERDECK;
+					}
 					playing = false;
-					gameOver = NOPLAYERDECK;
-				}
-					playing = false;
-					turn = AITURN;
 					break;
 				}
 			}
 		}
-
 		else
 		{
-			ai.playTurn(gs);
+			round.switchTurn(gs);
+			gs.ai.playTurn(gs);
 		}
 	}
 

@@ -1,5 +1,6 @@
 #include "AI.hpp"
 #include "Debug.hpp"
+#include "Round.hpp"
 
 Suit AI::determineBestSuit()
 {
@@ -71,7 +72,7 @@ void AI::playTurn(GameState& gs)
 		{
 			temporaryCard = playable[0];
 			gs.pile.addCard(gs.aiHand.playCard(playable[0]));
-			gs.turn = temporaryCard->actAbility(gs);
+			temporaryCard->actAbility(gs);
 		}
 		else if (playable.size() > 1)
 		{
@@ -82,10 +83,10 @@ void AI::playTurn(GameState& gs)
 					temporaryCards.push_back(playable[i]);
 				}
 			}
-			gs.pile.addMultiCard(gs.aiHand.playCards(playable));
+			gs.aiHand.playCards(playable, gs);
 			for (int i = 0; i < temporaryCards.size(); i++)
 			{
-				gs.turn = temporaryCards[i]->actAbility(gs);
+				temporaryCards[i]->actAbility(gs);
 			}
 		}
 	}
@@ -94,14 +95,17 @@ void AI::playTurn(GameState& gs)
 		// Priority queue-based gameplay.
 		// Gathers the legal cards into multiple vectors and plays what's best.
 		// Queue would look something like this:
+		// I. Suit of most cards
 		//		1. Skip cards (4s)
 		//		2. Basic cards with no ability
 		//		3. Draw cards (2s, 3s, Jokers)
 		//		4. Color changers (Aces)
 		//		5. No cards? Just draw.
+		// II. Second-best suit
+		//		Same order...
 		// But, then, also bypassers:
-		//		1. If Player has Macao (a single card) play a Draw card.
-		//		2. If Player has Macao but you don't have Draw cards, change the color.
+		//		1. If Player has Macao (a single card) always play a Draw card.
+		//		2. If Player has Macao but you don't have Draw cards, always change the color.
 
 		heartCards.clear();
 		spadeCards.clear();
@@ -119,6 +123,7 @@ void AI::playTurn(GameState& gs)
 		// Split cards per color and if they're Jokers
 		for (int i = 0; i < gs.aiHand.getSize(); i++)
 		{
+			Debug::log("[AI.cpp] Checking for playable cards...");
 			if (Card::isPlayable(gs.aiHand.getHand()[i], gs.pile.getCard()))
 			{
 				switch (gs.aiHand.getHand()[i]->getSuit())
@@ -189,40 +194,47 @@ void AI::playTurn(GameState& gs)
 		// If the Player has Macao, AI should attempt to mess up the Player's lead.
 		if (gs.playerHand.getSize() < 2 && !drawCards.empty()) 
 		{
-			gs.turn = drawCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playCards(drawCards));
+			drawCards[0]->actAbility(gs);
+			gs.aiHand.playCards(drawCards, gs);
 		}
 		else if (gs.playerHand.getSize() < 2 && !colorCards.empty()) 
 		{
-			gs.turn = colorCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playCards(colorCards));
+			colorCards[0]->actAbility(gs);
+			gs.aiHand.playCards(colorCards, gs);
 		}
+		// ===========================
 		// Play based on the priority queue
 		else if (!skipCards.empty()) 
 		{
-			gs.turn = skipCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playCards(skipCards));
+			skipCards[0]->actAbility(gs);
+			gs.aiHand.playCards(skipCards, gs);
 		}
 		else if (!basicCards.empty()) 
 		{
-			gs.turn = basicCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playCards(basicCards));
+			basicCards[0]->actAbility(gs);
+			gs.aiHand.playCards(basicCards, gs);
 		}
 		else if (!drawCards.empty()) 
 		{
-			gs.turn = drawCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playCards(drawCards));
+			drawCards[0]->actAbility(gs);
+			gs.aiHand.playCards(drawCards, gs);
 		}
 		else if (!colorCards.empty()) 
 		{
-			gs.turn = colorCards[0]->actAbility(gs);
-			gs.pile.addMultiCard(gs.aiHand.playCards(colorCards));
+			colorCards[0]->actAbility(gs);
+			gs.aiHand.playCards(colorCards, gs);
 		}
 		else 
 		{
 			std::cout << "The AI draws a card...\n";
-			gs.aiHand.addCard(gs.aiDeck.draw());
-			gs.turn = PLAYERTURN;
+			if (!(gs.aiDeck.getSize() < 1))
+			{
+				gs.aiHand.addCard(gs.aiDeck.draw());
+			}
+			else
+			{
+				gs.gameOver = NOAIDECK;
+			}
 		}
 
 		jokerCards.clear();
@@ -243,4 +255,9 @@ void AI::playTurn(GameState& gs)
 void AI::changeDifficulty(Difficulty newDifficulty)
 {
 	difficulty = newDifficulty;
+}
+
+Difficulty AI::getDifficulty()
+{
+	return difficulty;
 }

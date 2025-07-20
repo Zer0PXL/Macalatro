@@ -77,6 +77,12 @@ void Card::setOwner(Owner o)
 
 bool Card::isPlayable(std::shared_ptr<Card> cardToPlay, std::shared_ptr<Card> pileCard)
 {
+	if (cardToPlay->getRank() == pileCard->getRank()) Debug::log("[Card.hpp] That card has the same rank as the card on the pile!");
+	else if (cardToPlay->getSuit() == pileCard->getSuit()) Debug::log("[Card.hpp] That card has the same suit as the card on the pile!");
+	else if (cardToPlay->getRank() == -1) Debug::log("[Card.hpp] That card is a Joker!");
+	else if (pileCard->getRank() == -1) Debug::log("[Card.hpp] The pile card is a Joker!");
+	else Debug::log("[Card.hpp] X - Unplayable.");
+	
 	if (cardToPlay->getRank() == pileCard->getRank() || // IF the card you're about to play has the same rank
 		cardToPlay->getSuit() == pileCard->getSuit() || // OR the cards have the same suit
 		cardToPlay->getRank() == -1 || // OR the card to play is a Joker
@@ -97,7 +103,7 @@ void Card::setAbility(Ability a)
 	ability = a;
 }
 
-Turn Card::actAbility(GameState& gs)
+void Card::actAbility(GameState& gs)
 {
 	Hand* targetHand = &gs.playerHand;
 	Deck* targetDeck = &gs.playerDeck;
@@ -108,135 +114,162 @@ Turn Card::actAbility(GameState& gs)
 		targetDeck = &gs.aiDeck;
 	}
 	
-	switch (ability)
+	Debug::log("[Card.hpp] Checking if card is playable for ability...");
+	if (isPlayable(std::make_shared<Card>(*this), gs.pile.getCard()))
 	{
-	case DRAWABILITY:
-		Debug::log("[Card.cpp] DRAWABILITY");
-		Debug::log("[Card.cpp] Drawing as many cards as the rank of this card: ");
-		print();
-		switch (rank)
+		switch (ability)
 		{
-		case 2:
-			for (int i = 1; i <= 2; i++)
+		case DRAWABILITY:
+			Debug::log("[Card.cpp] DRAWABILITY");
+			switch (rank)
 			{
-				if (targetDeck->getSize() > 0)
-				{
-					targetHand->addCard(targetDeck->draw());
-				}
-				else
-				{
-					if (targetHand->getHand()[0]->getOwner() == PLAYER)
-					{
-						gs.gameOver = NOPLAYERDECK;
-					}
-					else gs.gameOver = NOAIDECK;
-				}
-			}
-			break;
-		case 3:
-			for (int i = 1; i <= 3; i++)
-			{
-				if (targetDeck->getSize() > 0)
-				{
-					targetHand->addCard(targetDeck->draw());
-				}
-				else
-				{
-					if (targetHand->getHand()[0]->getOwner() == PLAYER)
-					{
-						gs.gameOver = NOPLAYERDECK;
-					}
-					else gs.gameOver = NOAIDECK;
-				}
-			}
-			break;
-		case -1:
-			for (int i = 1; i <= 5; i++)
-			{
-				if (targetDeck->getSize() > 0)
-				{
-					targetHand->addCard(targetDeck->draw());
-				}
-				else
-				{
-					if (targetHand->getHand()[0]->getOwner() == PLAYER)
-					{
-						gs.gameOver = NOPLAYERDECK;
-					}
-					else gs.gameOver = NOAIDECK;
-				}
-			}
-			break;
-		default:
-			std::cout << "X - Invalid rank for DRAWABILITY (how!?!)\n";
-		}
-		return gs.turn;
-		break;
-	case COLOR:
-		Debug::log("[Card.cpp] COLOR");
-		if (owner == PLAYER)
-		{
-			std::string stringInput;
-			Suit suitToChangeTo = HEARTS;
-			std::cout << "What suit do you want? (hearts, spades, diamonds, clubs)";
-			std::cin >> stringInput;
-
-			if (stringInput == "hearts") suitToChangeTo = HEARTS;
-			else if (stringInput == "spades") suitToChangeTo = SPADES;
-			else if (stringInput == "diamonds") suitToChangeTo = DIAMONDS;
-			else if (stringInput == "clubs") suitToChangeTo = CLUBS;
-			else std::cout << "That's not a suit!";
-
-			gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
-
-			return AITURN;
-		}
-		else
-		{
-			// Yeah, I'm not programming anything interesting rn. Later, when I'll have to make a proper AI.
-			int randomChance = Chance::chance(0, 3);
-			Suit randomSuit;
-			switch (randomChance)
-			{
-			case 0:
-				randomSuit = HEARTS;
-				break;
-			case 1:
-				randomSuit = SPADES;
-				break;
 			case 2:
-				randomSuit = DIAMONDS;
+				for (int i = 1; i <= 2; i++)
+				{
+					if (targetDeck->getSize() > 0)
+					{
+						targetHand->addCard(targetDeck->draw());
+					}
+					else
+					{
+						if (owner == PLAYER)
+						{
+							gs.gameOver = NOPLAYERDECK;
+						}
+						else gs.gameOver = NOAIDECK;
+					}
+				}
 				break;
 			case 3:
-				randomSuit = CLUBS;
+				for (int i = 1; i <= 3; i++)
+				{
+					if (targetDeck->getSize() > 0)
+					{
+						targetHand->addCard(targetDeck->draw());
+					}
+					else
+					{
+						if (owner == PLAYER)
+						{
+							gs.gameOver = NOPLAYERDECK;
+						}
+						else gs.gameOver = NOAIDECK;
+					}
+				}
+				break;
+			case -1:
+				for (int i = 1; i <= 5; i++)
+				{
+					if (targetDeck->getSize() > 0)
+					{
+						targetHand->addCard(targetDeck->draw());
+					}
+					else
+					{
+						if (owner == PLAYER)
+						{
+							gs.gameOver = NOPLAYERDECK;
+						}
+						else gs.gameOver = NOAIDECK;
+					}
+				}
 				break;
 			default:
-				randomSuit = HEARTS;
-				std::cout << "X - Random chance broken???\n";
-				break;
+				std::cout << "X - Invalid rank for DRAWABILITY (how!?!)\n";
 			}
 
-			gs.pile.addCard(std::make_shared<Card>(1, randomSuit, 0, NONE, BASIC));
+			if (owner == PLAYER) 
+			{
+				Debug::log("i - The Player should be next, since they played a draw card.");
+				gs.turn = PLAYERTURN;
+			}
+			else gs.turn = AITURN;
+			break;
+		case COLOR:
+			Debug::log("[Card.cpp] COLOR");
+			if (owner == PLAYER)
+			{
+				std::string stringInput;
+				Suit suitToChangeTo = HEARTS;
+				std::cout << "What suit do you want? (hearts, spades, diamonds, clubs)";
+				std::cin >> stringInput;
 
-			return PLAYERTURN;
+				if (stringInput == "hearts") suitToChangeTo = HEARTS;
+				else if (stringInput == "spades") suitToChangeTo = SPADES;
+				else if (stringInput == "diamonds") suitToChangeTo = DIAMONDS;
+				else if (stringInput == "clubs") suitToChangeTo = CLUBS;
+				else std::cout << "That's not a suit!";
+
+				gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
+			}
+			else
+			{
+				if (gs.ai.getDifficulty() == DUMB)
+				{
+					int randomChance = Chance::chance(0, 3);
+					Suit randomSuit;
+					switch (randomChance)
+					{
+					case 0:
+						randomSuit = HEARTS;
+						break;
+					case 1:
+						randomSuit = SPADES;
+						break;
+					case 2:
+						randomSuit = DIAMONDS;
+						break;
+					case 3:
+						randomSuit = CLUBS;
+						break;
+					default:
+						randomSuit = HEARTS;
+						std::cout << "X - Random chance broken???\n";
+						break;
+					}
+					gs.pile.addCard(std::make_shared<Card>(1, randomSuit, 0, NONE, BASIC));
+				}
+				else if (gs.ai.getDifficulty() == SMART)
+				{
+					Suit suitToChangeTo;
+					switch (gs.ai.determineBestSuit())
+					{
+					case HEARTS:
+						suitToChangeTo = HEARTS;
+						break;
+					case SPADES:
+						suitToChangeTo = SPADES;
+						break;
+					case DIAMONDS:
+						suitToChangeTo = DIAMONDS;
+						break;
+					case CLUBS:
+						suitToChangeTo = CLUBS;
+						break;
+					default:
+						suitToChangeTo = HEARTS;
+						std::cout << "X - Invalid best suit!\n";
+						break;
+					}
+					gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
+				}
+			}
+			break;
+		case SKIP:
+			Debug::log("[Card.cpp] SKIP");
+			if (owner == PLAYER) gs.turn = PLAYERTURN;
+			else if (owner == OWNERAI) gs.turn = AITURN;
+			else std::cout << "X - uh... SKIP ability called by invalid card with no owner?\n";
+			break;
+		default:
+			Debug::log("[Card.cpp] BASIC or other ability card. Skipping...");
+			return;
+			break;
 		}
-		break;
-	case SKIP:
-		Debug::log("[Card.cpp] SKIP");
-		if (owner == PLAYER) return PLAYERTURN;
-		else if (owner == OWNERAI) return AITURN;
-		else std::cout << "X - uh... SKIP ability called by invalid card with no owner?\n";
-		break;
-	default:
-		Debug::log("[Card.cpp] BASIC or other ability card. Skipping...");
-		if (gs.turn == PLAYERTURN) 
-		{
-			Debug::log("[Card.cpp] It's the Player's turn, so it'll OBVIOUSLY be the AI's turn next!");
-			gs.turn = AITURN;
-		}
-		else gs.turn = PLAYERTURN;
-		return gs.turn;
-		break;
+	}
+	else
+	{
+		std::cout << "X - Can't play that card right now!\n";
 	}
 }
 

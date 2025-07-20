@@ -5,6 +5,8 @@
 #include "Deck.hpp"
 #include <memory>
 
+struct GameState;
+
 class Hand
 {
 private:
@@ -12,7 +14,7 @@ private:
 public:
 	void addCard(std::shared_ptr<Card> card);
 	std::shared_ptr<Card> playCard(const std::shared_ptr<Card> card);
-	std::vector<std::shared_ptr<Card>> playCards(const std::vector<std::shared_ptr<Card>> cards);
+	void playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& gs);
 	int getSize();
 	std::vector<std::shared_ptr<Card>> getHand();
 };

@@ -39,7 +39,7 @@ Round::Round(GameState& gs)
 	else gs.pile.addCard(gs.playerDeck.draw());
 }
 
-// Outdated
+// Deprecated
 // Turn Round::playTurn(Turn& turn)
 /*{
 	if (turn) Debug::log("[Round.cpp] It's the AI's turn");
@@ -179,4 +179,10 @@ void Round::endRound(GameState& gs)
 
 	// Clearing the pile and adding the cards back in their respective decks (check function)
 	gs.pile.clearPile(gs.playerDeck, gs.aiDeck);
+}
+
+void Round::switchTurn(GameState& gs)
+{
+	if (gs.turn == PLAYERTURN) gs.turn = AITURN;
+	else gs.turn = PLAYERTURN;
 }

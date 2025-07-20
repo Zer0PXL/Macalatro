@@ -1,6 +1,7 @@
 #include "Hand.hpp"
 #include "Card.hpp"
 #include "Debug.hpp"
+#include "Round.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -52,7 +53,7 @@ std::shared_ptr<Card> Hand::playCard(const std::shared_ptr<Card> card)
 	}
 }
 
-std::vector<std::shared_ptr<Card>> Hand::playCards(const std::vector<std::shared_ptr<Card>> cards)
+void Hand::playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& gs)
 {
 	std::vector<std::shared_ptr<Card>> toPlay;
 	std::vector<int> toBeDeleted;
@@ -73,11 +74,9 @@ std::vector<std::shared_ptr<Card>> Hand::playCards(const std::vector<std::shared
 
 	if (toPlay.size() < 1)
 	{
-		Debug::log("! - No cards for playMultiCards (how?)");
+		Debug::log("! - No cards for playCards (how?)");
 
 		toPlay = { std::make_shared<Card>(0, HEARTS, -1, NONE, BASIC) };
-
-		return toPlay;
 	}
 
 	int rankCheck = toPlay[0]->getRank();
@@ -97,10 +96,17 @@ std::vector<std::shared_ptr<Card>> Hand::playCards(const std::vector<std::shared
 
 	for (int i = 0; i < toPlay.size(); i++)
 	{
-		std::cout << "Played: "; toPlay[i]->print(); std::cout << "\n";
+		Debug::log("[Hand.cpp] Checking if the card is playable...");
+		if (Card::isPlayable(toPlay[i], gs.pile.getCard()))
+		{
+			gs.pile.addCard(toPlay[i]);
+			std::cout << "Played: "; toPlay[i]->print(); std::cout << "\n";
+		}
+		else
+		{
+			std::cout << "Not playable!\n";
+		}
 	}
-	
-	return toPlay;
 }
 
 int Hand::getSize()

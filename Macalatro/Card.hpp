@@ -50,6 +50,6 @@ public:
 	Ability getAbility() const;
 	void setAbility(Ability a);
 	static bool isPlayable(std::shared_ptr<Card> cardToPlay, std::shared_ptr<Card> pileCard);
-	Turn actAbility(GameState& gs);
+	void actAbility(GameState& gs);
 	static Suit intToSuit(int interger);
 };
