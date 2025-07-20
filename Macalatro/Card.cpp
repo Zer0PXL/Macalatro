@@ -108,7 +108,7 @@ void Card::actAbility(GameState& gs)
 	Hand* targetHand = &gs.playerHand;
 	Deck* targetDeck = &gs.playerDeck;
 	
-	if (gs.turn == PLAYERTURN)
+	if (owner == PLAYERTURN)
 	{
 		targetHand = &gs.aiHand;
 		targetDeck = &gs.aiDeck;

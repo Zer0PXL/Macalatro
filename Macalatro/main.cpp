@@ -11,6 +11,14 @@
 #include "AI.hpp"
 #include <memory>
 
+#ifdef _DEBUG
+bool debugMode = true;
+bool cheats = true;
+#else
+bool debugMode = false;
+bool cheats = false;
+#endif
+
 enum Choice
 {
 	PLAY,

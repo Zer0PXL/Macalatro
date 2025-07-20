@@ -99,7 +99,14 @@ void Hand::playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& 
 		Debug::log("[Hand.cpp] Checking if the card is playable...");
 		if (Card::isPlayable(toPlay[i], gs.pile.getCard()))
 		{
-			gs.pile.addCard(toPlay[i]);
+			if (!(toPlay[i]->getAbility() == COLOR))
+			{
+				gs.pile.addCard(toPlay[i]);
+			}
+			if (toPlay[i]->getAbility() == COLOR && !(gs.pile.getCard()->getOwner() == NONE))
+			{
+				gs.pile.addCard(toPlay[i]);
+			}
 			std::cout << "Played: "; toPlay[i]->print(); std::cout << "\n";
 		}
 		else
