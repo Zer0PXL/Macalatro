@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 
 void Hand::addCard(std::shared_ptr<Card> card)
 {
@@ -89,15 +90,12 @@ void Hand::playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& 
 		}
 	}
 
-	for (int i = toBeDeleted.size() - 1; i >= 0; i--)
-	{
-		hand.erase(hand.begin() + toBeDeleted[i]);
-	}
+	std::shared_ptr<Card> currentTop = gs.pile.getCard();
 
 	for (int i = 0; i < toPlay.size(); i++)
 	{
 		Debug::log("[Hand.cpp] Checking if the card is playable...");
-		if (Card::isPlayable(toPlay[i], gs.pile.getCard()))
+		if (Card::isPlayable(toPlay[i], currentTop))
 		{
 			if (!(toPlay[i]->getAbility() == COLOR))
 			{
@@ -108,11 +106,18 @@ void Hand::playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& 
 				gs.pile.addCard(toPlay[i]);
 			}
 			std::cout << "Played: "; toPlay[i]->print(); std::cout << "\n";
+			currentTop = gs.pile.getCard();
 		}
 		else
 		{
 			std::cout << "Not playable!\n";
+			if (gs.turn == AITURN) gs.turn = PLAYERTURN;
 		}
+	}
+
+	for (int i = toBeDeleted.size() - 1; i >= 0; i--)
+	{
+		hand.erase(hand.begin() + toBeDeleted[i]);
 	}
 }
 

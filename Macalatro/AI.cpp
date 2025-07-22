@@ -1,6 +1,7 @@
 #include "AI.hpp"
 #include "Debug.hpp"
 #include "Round.hpp"
+#include <string>
 
 Suit AI::determineBestSuit()
 {
@@ -8,22 +9,34 @@ Suit AI::determineBestSuit()
 	if (heartCards.size() >= spadeCards.size() &&
 		heartCards.size() >= diamondCards.size() &&
 		heartCards.size() >= clubCards.size())
+	{
+		Debug::log("[AI.cpp] The best suit is Hearts with ", std::to_string(heartCards.size()), " cards.");
 		return HEARTS;
+	}
 	else if (spadeCards.size() >= heartCards.size() &&
 		spadeCards.size() >= diamondCards.size() &&
 		spadeCards.size() >= clubCards.size())
+	{
+		Debug::log("[AI.cpp] The best suit is Spades with ", std::to_string(spadeCards.size()), " cards.");
 		return SPADES;
+	}
 	else if (diamondCards.size() >= heartCards.size() &&
 		diamondCards.size() >= spadeCards.size() &&
 		diamondCards.size() >= clubCards.size())
+	{
+		Debug::log("[AI.cpp] The best suit is Diamonds with ", std::to_string(diamondCards.size()), " cards.");
 		return DIAMONDS;
+	}
 	else if (clubCards.size() >= heartCards.size() &&
 		clubCards.size() >= spadeCards.size() &&
 		clubCards.size() >= diamondCards.size())
+	{
+		Debug::log("[AI.cpp] The best suit is Clubs with ", std::to_string(clubCards.size()), " cards.");
 		return CLUBS;
+	}
 	else
 	{
-		std::cout << "[AI.cpp] X - The AI somehow doesn't have a best color!\n";
+		std::cout << "[AI.cpp] X - The AI somehow doesn't have a best suit!\n";
 		return HEARTS;
 	}
 }

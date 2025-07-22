@@ -9,35 +9,42 @@ Card::Card(int r, Suit s, int id, Owner o, Ability a) : rank(r), suit(s), id(id)
 
 void Card::print() const
 {
+	std::string ownerString = (owner == PLAYER ? "Player" : "AI");
+	
 	if (debugMode)
 	{
-		if (suit == 0) std::cout << id << " is a " << rank << " of Hearts belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-		else if (suit == 1) std::cout << id << " is a " << rank << " of Spades belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-		else if (suit == 2) std::cout << id << " is a " << rank << " of Diamonds belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-		else if (suit == 3) std::cout << id << " is a " << rank << " of Clubs belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-		else if (suit == 4) std::cout << id << " is a Black Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-		else if (suit == 5) std::cout << id << " is a Red Joker belonging to " << owner << " with ability " << Debug::abilityToString(ability) << std::endl;
-		else Debug::log("! - That card invalid af (as frick)");
+		if (suit == HEARTS)
+			std::cout << rank << " of Hearts (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+		else if (suit == SPADES)
+			std::cout << rank << " of Spades (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+		else if (suit == DIAMONDS)
+			std::cout << rank << " of Diamonds (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+		else if (suit == CLUBS)
+			std::cout << rank << " of Clubs (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+		else if (suit == BLACKJOKER)
+			std::cout << "Black Joker (ID:" << id << ", Owner : " << ownerString << ", Ability : " << Debug::abilityToString(ability) << ")" << std::endl;
+		else if (suit == REDJOKER)
+			std::cout << "Red Joker (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+		else
+			std::cout << "Invalid card (ID: " << id << ")" << std::endl;
 	}
 	else
 	{
-		if (suit == 0) std::cout << id << " is a " << rank << " of Hearts" << std::endl;
-		else if (suit == 1) std::cout << id << " is a " << rank << " of Spades" << std::endl;
-		else if (suit == 2) std::cout << id << " is a " << rank << " of Diamonds" << std::endl;
-		else if (suit == 3) std::cout << id << " is a " << rank << " of Clubs" << std::endl;
-		else if (suit == 4) std::cout << id << " is a Black Joker" << std::endl;
-		else if (suit == 5) std::cout << id << " is a Red Joker " << std::endl;
-		else Debug::log("! - That card invalid af (as frick)");
+		if (suit == HEARTS)
+			std::cout << rank << " of Hearts (ID: " << id << ")" << std::endl;
+		else if (suit == SPADES)
+			std::cout << rank << " of Spades (ID: " << id << ")" << std::endl;
+		else if (suit == DIAMONDS)
+			std::cout << rank << " of Diamonds (ID: " << id << ")" << std::endl;
+		else if (suit == CLUBS)
+			std::cout << rank << " of Clubs (ID: " << id << ")" << std::endl;
+		else if (suit == BLACKJOKER)
+			std::cout << "Black Joker (ID: " << id << ")" << std::endl;
+		else if (suit == REDJOKER)
+			std::cout << "Red Joker (ID: " << id << ")" << std::endl;
+		else
+			std::cout << "Invalid card (ID: " << id << ")" << std::endl;
 	}
-
-	// Note to self, don't be a fucking idiot.
-	/*if (suit == 0) { Debug::log(std::to_string(id), " is a ", std::to_string(rank), " of Hearts belonging to ", std::to_string(owner)); std::cout << std::endl; }
-	else if (suit == 1) { Debug::log(std::to_string(id), " is a ", std::to_string(rank), " of Spades belonging to ", std::to_string(owner)); std::cout << std::endl; }
-	else if (suit == 2) { Debug::log(std::to_string(id), " is a ", std::to_string(rank), " of Diamonds belonging to ", std::to_string(owner)); std::cout << std::endl; }
-	else if (suit == 3) { Debug::log(std::to_string(id), " is a ", std::to_string(rank), " of Clubs belonging to ", std::to_string(owner)); std::cout << std::endl; }
-	else if (suit == -1) { Debug::log(std::to_string(id), " is a Black Joker belonging to ", std::to_string(owner)); std::cout << std::endl; }
-	else if (suit == -2) { Debug::log(std::to_string(id), " is a Red Joker belonging to ", std::to_string(owner)); std::cout << std::endl; }
-	else Debug::log("! - That card invalid af (as frick)");*/
 }
 
 int Card::getSuit() const
@@ -113,163 +120,155 @@ void Card::actAbility(GameState& gs)
 		targetHand = &gs.aiHand;
 		targetDeck = &gs.aiDeck;
 	}
-	
-	Debug::log("[Card.hpp] Checking if card is playable for ability...");
-	if (isPlayable(std::make_shared<Card>(*this), gs.pile.getCard()))
+
+	switch (ability)
 	{
-		switch (ability)
+	case DRAWABILITY:
+		Debug::log("[Card.cpp] DRAWABILITY");
+		switch (rank)
 		{
-		case DRAWABILITY:
-			Debug::log("[Card.cpp] DRAWABILITY");
-			switch (rank)
+		case 2:
+			for (int i = 1; i <= 2; i++)
 			{
-			case 2:
-				for (int i = 1; i <= 2; i++)
+				if (targetDeck->getSize() > 0)
 				{
-					if (targetDeck->getSize() > 0)
-					{
-						targetHand->addCard(targetDeck->draw());
-					}
-					else
-					{
-						if (owner == PLAYER)
-						{
-							gs.gameOver = NOPLAYERDECK;
-						}
-						else gs.gameOver = NOAIDECK;
-					}
+					targetHand->addCard(targetDeck->draw());
 				}
-				break;
-			case 3:
-				for (int i = 1; i <= 3; i++)
+				else
 				{
-					if (targetDeck->getSize() > 0)
+					if (owner == PLAYER)
 					{
-						targetHand->addCard(targetDeck->draw());
+						gs.gameOver = NOPLAYERDECK;
 					}
-					else
-					{
-						if (owner == PLAYER)
-						{
-							gs.gameOver = NOPLAYERDECK;
-						}
-						else gs.gameOver = NOAIDECK;
-					}
-				}
-				break;
-			case -1:
-				for (int i = 1; i <= 5; i++)
-				{
-					if (targetDeck->getSize() > 0)
-					{
-						targetHand->addCard(targetDeck->draw());
-					}
-					else
-					{
-						if (owner == PLAYER)
-						{
-							gs.gameOver = NOPLAYERDECK;
-						}
-						else gs.gameOver = NOAIDECK;
-					}
-				}
-				break;
-			default:
-				std::cout << "X - Invalid rank for DRAWABILITY (how!?!)\n";
-			}
-
-			if (owner == PLAYER) 
-			{
-				Debug::log("i - The Player should be next, since they played a draw card.");
-				gs.turn = PLAYERTURN;
-			}
-			else gs.turn = AITURN;
-			break;
-		case COLOR:
-			Debug::log("[Card.cpp] COLOR");
-			if (owner == PLAYER)
-			{
-				std::string stringInput;
-				Suit suitToChangeTo = HEARTS;
-				std::cout << "What suit do you want? (hearts, spades, diamonds, clubs)";
-				std::cin >> stringInput;
-
-				if (stringInput == "hearts") suitToChangeTo = HEARTS;
-				else if (stringInput == "spades") suitToChangeTo = SPADES;
-				else if (stringInput == "diamonds") suitToChangeTo = DIAMONDS;
-				else if (stringInput == "clubs") suitToChangeTo = CLUBS;
-				else std::cout << "That's not a suit!";
-
-				gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
-			}
-			else
-			{
-				if (gs.ai.getDifficulty() == DUMB)
-				{
-					int randomChance = Chance::chance(0, 3);
-					Suit randomSuit;
-					switch (randomChance)
-					{
-					case 0:
-						randomSuit = HEARTS;
-						break;
-					case 1:
-						randomSuit = SPADES;
-						break;
-					case 2:
-						randomSuit = DIAMONDS;
-						break;
-					case 3:
-						randomSuit = CLUBS;
-						break;
-					default:
-						randomSuit = HEARTS;
-						std::cout << "X - Random chance broken???\n";
-						break;
-					}
-					gs.pile.addCard(std::make_shared<Card>(1, randomSuit, 0, NONE, BASIC));
-				}
-				else if (gs.ai.getDifficulty() == SMART)
-				{
-					Suit suitToChangeTo;
-					switch (gs.ai.determineBestSuit())
-					{
-					case HEARTS:
-						suitToChangeTo = HEARTS;
-						break;
-					case SPADES:
-						suitToChangeTo = SPADES;
-						break;
-					case DIAMONDS:
-						suitToChangeTo = DIAMONDS;
-						break;
-					case CLUBS:
-						suitToChangeTo = CLUBS;
-						break;
-					default:
-						suitToChangeTo = HEARTS;
-						std::cout << "X - Invalid best suit!\n";
-						break;
-					}
-					gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
+					else gs.gameOver = NOAIDECK;
 				}
 			}
 			break;
-		case SKIP:
-			Debug::log("[Card.cpp] SKIP");
-			if (owner == PLAYER) gs.turn = PLAYERTURN;
-			else if (owner == OWNERAI) gs.turn = AITURN;
-			else std::cout << "X - uh... SKIP ability called by invalid card with no owner?\n";
+		case 3:
+			for (int i = 1; i <= 3; i++)
+			{
+				if (targetDeck->getSize() > 0)
+				{
+					targetHand->addCard(targetDeck->draw());
+				}
+				else
+				{
+					if (owner == PLAYER)
+					{
+						gs.gameOver = NOPLAYERDECK;
+					}
+					else gs.gameOver = NOAIDECK;
+				}
+			}
+			break;
+		case -1:
+			for (int i = 1; i <= 5; i++)
+			{
+				if (targetDeck->getSize() > 0)
+				{
+					targetHand->addCard(targetDeck->draw());
+				}
+				else
+				{
+					if (owner == PLAYER)
+					{
+						gs.gameOver = NOPLAYERDECK;
+					}
+					else gs.gameOver = NOAIDECK;
+				}
+			}
 			break;
 		default:
-			Debug::log("[Card.cpp] BASIC or other ability card. Skipping...");
-			return;
-			break;
+			std::cout << "X - Invalid rank for DRAWABILITY (how!?!)\n";
 		}
-	}
-	else
-	{
-		std::cout << "X - Can't play that card right now!\n";
+
+		if (owner == PLAYER) 
+		{
+			Debug::log("i - The Player should be next, since they played a draw card.");
+			gs.turn = PLAYERTURN;
+		}
+		else gs.turn = AITURN;
+		break;
+	case COLOR:
+		Debug::log("[Card.cpp] COLOR");
+		if (owner == PLAYER)
+		{
+			std::string stringInput;
+			Suit suitToChangeTo = HEARTS;
+			std::cout << "What suit do you want? (hearts, spades, diamonds, clubs)";
+			std::cin >> stringInput;
+
+			if (stringInput == "hearts") suitToChangeTo = HEARTS;
+			else if (stringInput == "spades") suitToChangeTo = SPADES;
+			else if (stringInput == "diamonds") suitToChangeTo = DIAMONDS;
+			else if (stringInput == "clubs") suitToChangeTo = CLUBS;
+			else std::cout << "That's not a suit!";
+
+			gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
+		}
+		else
+		{
+			if (gs.ai.getDifficulty() == DUMB)
+			{
+				int randomChance = Chance::chance(0, 3);
+				Suit randomSuit;
+				switch (randomChance)
+				{
+				case 0:
+					randomSuit = HEARTS;
+					break;
+				case 1:
+					randomSuit = SPADES;
+					break;
+				case 2:
+					randomSuit = DIAMONDS;
+					break;
+				case 3:
+					randomSuit = CLUBS;
+					break;
+				default:
+					randomSuit = HEARTS;
+					std::cout << "X - Random chance broken???\n";
+					break;
+				}
+				gs.pile.addCard(std::make_shared<Card>(1, randomSuit, 0, NONE, BASIC));
+			}
+			else if (gs.ai.getDifficulty() == SMART)
+			{
+				Suit suitToChangeTo;
+				switch (gs.ai.determineBestSuit())
+				{
+				case HEARTS:
+					suitToChangeTo = HEARTS;
+					break;
+				case SPADES:
+					suitToChangeTo = SPADES;
+					break;
+				case DIAMONDS:
+					suitToChangeTo = DIAMONDS;
+					break;
+				case CLUBS:
+					suitToChangeTo = CLUBS;
+					break;
+				default:
+					suitToChangeTo = HEARTS;
+					std::cout << "X - Invalid best suit!\n";
+					break;
+				}
+				gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
+			}
+		}
+		break;
+	case SKIP:
+		Debug::log("[Card.cpp] SKIP");
+		if (owner == PLAYER) gs.turn = PLAYERTURN;
+		else if (owner == OWNERAI) gs.turn = AITURN;
+		else std::cout << "X - uh... SKIP ability called by invalid card with no owner?\n";
+		break;
+	default:
+		Debug::log("[Card.cpp] BASIC or other ability card. Skipping...");
+		return;
+		break;
 	}
 }
 
