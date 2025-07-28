@@ -5,8 +5,6 @@
 #include "AI.hpp"
 #include <memory>
 
-extern int roundNum;
-
 enum Turn
 {
 	PLAYERTURN,
@@ -22,6 +20,17 @@ enum GameOver
 	NOAIDECK
 };
 
+struct Bonuses
+{
+	bool speedster = false;
+	bool jokester = false;
+	bool royalty = false;
+	bool noDraw = false;
+	bool comeback = false;
+	bool oneManShow = false;
+	bool oneShotWonder = false;
+};
+
 struct GameState
 {
 	Deck& playerDeck;
@@ -32,8 +41,10 @@ struct GameState
 	Turn& turn;
 	GameOver& gameOver;
 	AI& ai;
+	int& score;
+	Bonuses& bonuses;
 
-	GameState(Deck& pDeck, Deck& aDeck, Hand& pHand, Hand& aHand, Table& _pile, Turn& _turn, GameOver& gO, AI& AI) : playerDeck(pDeck), aiDeck(aDeck), playerHand(pHand), aiHand(aHand), pile(_pile), turn(_turn), gameOver(gO), ai(AI) {}
+	GameState(Deck& pDeck, Deck& aDeck, Hand& pHand, Hand& aHand, Table& _pile, Turn& _turn, GameOver& gO, AI& AI, int& s, Bonuses& b) : playerDeck(pDeck), aiDeck(aDeck), playerHand(pHand), aiHand(aHand), pile(_pile), turn(_turn), gameOver(gO), ai(AI), score(s), bonuses(b) {}
 };
 
 class Round
@@ -44,6 +55,8 @@ public:
 	Round(GameState& gs);
 	GameOver isGameOver(GameState& gs);
 	void endRound(GameState& gs);
-	void switchTurn(GameState& gs);
+	static void switchTurn(GameState& gs);
+	static void calculateBonuses(GameState& gs);
+	static void scoreBreakdown(GameState& gs);
 };
 

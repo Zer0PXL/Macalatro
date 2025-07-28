@@ -133,10 +133,11 @@ void Card::actAbility(GameState& gs)
 				if (targetDeck->getSize() > 0)
 				{
 					targetHand->addCard(targetDeck->draw());
+					if (owner == PLAYER) gs.score += 10;
 				}
 				else
 				{
-					if (owner == PLAYER)
+					if (owner == OWNERAI)
 					{
 						gs.gameOver = NOPLAYERDECK;
 					}
@@ -150,10 +151,11 @@ void Card::actAbility(GameState& gs)
 				if (targetDeck->getSize() > 0)
 				{
 					targetHand->addCard(targetDeck->draw());
+					if (owner == PLAYER) gs.score += 10;
 				}
 				else
 				{
-					if (owner == PLAYER)
+					if (owner == OWNERAI)
 					{
 						gs.gameOver = NOPLAYERDECK;
 					}
@@ -167,10 +169,11 @@ void Card::actAbility(GameState& gs)
 				if (targetDeck->getSize() > 0)
 				{
 					targetHand->addCard(targetDeck->draw());
+					if (owner == PLAYER) gs.score += 10;
 				}
 				else
 				{
-					if (owner == PLAYER)
+					if (owner == OWNERAI)
 					{
 						gs.gameOver = NOPLAYERDECK;
 					}
@@ -261,7 +264,11 @@ void Card::actAbility(GameState& gs)
 		break;
 	case SKIP:
 		Debug::log("[Card.cpp] SKIP");
-		if (owner == PLAYER) gs.turn = PLAYERTURN;
+		if (owner == PLAYER)
+		{
+			gs.turn = PLAYERTURN;
+			gs.score += 50;
+		}
 		else if (owner == OWNERAI) gs.turn = AITURN;
 		else std::cout << "X - uh... SKIP ability called by invalid card with no owner?\n";
 		break;

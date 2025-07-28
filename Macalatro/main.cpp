@@ -24,7 +24,8 @@ enum Choice
 	PLAY,
 	PLAYMULTI,
 	DRAW,
-	INVALID
+	INVALID,
+	BYPASS
 };
 
 int main()
@@ -47,9 +48,11 @@ int main()
 	std::string stringInput = "";
 	int intInput = 0;
 	bool playing = true;
+	int score = 0;
+	Bonuses bonuses;
 
 	// GameState and Round creation
-	GameState gs{ playerDeck, aiDeck, playerHand, aiHand, pile, turn, gameOver, ai };
+	GameState gs{ playerDeck, aiDeck, playerHand, aiHand, pile, turn, gameOver, ai, score, bonuses };
 	Round round = Round(gs);
 
 	// Begining of game loop
@@ -59,7 +62,7 @@ int main()
 	
 		if (turn == PLAYERTURN)
 		{
-			round.switchTurn(gs);
+			Round::switchTurn(gs);
 
 			std::cout << "It's your turn!\n";
 
@@ -100,6 +103,11 @@ int main()
 				{
 					Debug::logTurn(gs);
 					choice = INVALID;
+				}
+				if (debugMode && stringInput == "iwinbtw")
+				{
+					gs.gameOver = PLAYERWIN;
+					choice = BYPASS;
 				}
 
 				if (stringInput == "play")
@@ -171,6 +179,7 @@ int main()
 					if (!(gs.playerDeck.getSize() < 1))
 					{
 						gs.playerHand.addCard(playerDeck.draw());
+						gs.score += 10;
 					}
 					else
 					{
@@ -178,12 +187,15 @@ int main()
 					}
 					playing = false;
 					break;
+				case BYPASS:
+					playing = false;
+					break;
 				}
 			}
 		}
 		else
 		{
-			round.switchTurn(gs);
+			Round::switchTurn(gs);
 			gs.ai.playTurn(gs);
 		}
 	}
@@ -199,6 +211,7 @@ int main()
 					break;
     case PLAYERWIN:
 					std::cout << "The Player wins!\n";
+					gs.score += 100;
 					break;
     case AIWIN:
 					std::cout << "The AI wins!\n";
@@ -208,13 +221,19 @@ int main()
 					break;
     case NOAIDECK:
 					std::cout << "The AI ran out of cards! Player wins!\n";
+					gs.score += 100;
 					break;
     default:
 					std::cout << "X - Garbage data in GameOver???\n";
 					break;
     }
 
-	std::cout << "Press enter to continue...";
+	std::cout << "Your score!" << std::endl;
+	std::cout << "=============================\n| " << gs.score << "|\n=============================\n";
+
+	Round::scoreBreakdown(gs);
+
+	std::cout << "Press any letter (then enter) to continue...";
 	std::cin >> stringInput;
 
 	return 0;

@@ -5,14 +5,10 @@
 #include "Chance.hpp"
 #include "Debug.hpp"
 
-int roundNum = 0;
 
 Round::Round(GameState& gs)
 {
 	Debug::log("[Round.cpp] Starting round...");
-	
-	// Increase round number
-	roundNum++;
 
 	// Shuffle decks
 	gs.playerDeck.shuffle();
@@ -158,6 +154,9 @@ GameOver Round::isGameOver(GameState& gs)
 
 void Round::endRound(GameState& gs)
 {
+	int kings = 0;
+	int jokers = 0;
+	
 	// Shuffle the cards in hand back into their respective decks
 	for (int i = gs.playerHand.getSize() - 1; i >= 0; i--)
 	{
@@ -170,6 +169,18 @@ void Round::endRound(GameState& gs)
 		gs.aiDeck.addCard(gs.aiHand.getHand()[i]);
 	}
 	gs.aiHand.getHand().clear();
+
+	// Checking for bonuses...
+	for (int i = 0; i < gs.pile.getPile().size(); i++)
+	{
+		if (gs.pile.getPile()[i]->getOwner() == PLAYER)
+		{
+			if (gs.pile.getPile()[i]->getRank() == 13) kings++;
+			if (gs.pile.getPile()[i]->getRank() == -1) jokers++;
+		}
+	}
+	if (kings >= 4) gs.bonuses.royalty = true;
+	if (jokers >= 2) gs.bonuses.jokester = true;
 
 	for (int i = 0; i < gs.pile.getPile().size(); i++)
 	{
@@ -185,4 +196,37 @@ void Round::switchTurn(GameState& gs)
 {
 	if (gs.turn == PLAYERTURN) gs.turn = AITURN;
 	else gs.turn = PLAYERTURN;
+}
+
+void Round::calculateBonuses(GameState& gs)
+{
+	if (gs.bonuses.comeback) gs.score += 100; // Had over 10 cards, still won
+	else if (gs.bonuses.jokester) gs.score += 100; // Played both jokers
+	else if (gs.bonuses.royalty) gs.score += 200; // Played all four kings
+	else if (gs.bonuses.noDraw) gs.score += 150; // Didn't draw a single card
+	else if (gs.bonuses.oneManShow) gs.score += 100; // The AI didn't get to play a single card
+	else if (gs.bonuses.oneShotWonder) gs.score += 100; // Won by playing a single time
+}
+
+void Round::scoreBreakdown(GameState& gs)
+{
+	std::cout << "=====================BREAKDOWN=====================" << std::endl;
+
+	if (gs.bonuses.comeback) std::cout << "+ 100 - Comeback!\n";
+	if (gs.bonuses.jokester) std::cout << "+ 100 - Jokester!\n";
+	if (gs.bonuses.royalty) std::cout << "+ 200 - Royalty!\n";
+	if (gs.bonuses.noDraw) std::cout << "+ 150 - No Deck Needed!\n";
+	if (gs.bonuses.oneManShow) std::cout << "+ 100 - One Man Show!?\n";
+	if (gs.bonuses.oneShotWonder) std::cout << "+ 100 - ONE SHOT WONDER!?\n";
+	if (!gs.bonuses.comeback &&
+		!gs.bonuses.jokester &&
+		!gs.bonuses.royalty &&
+		!gs.bonuses.noDraw &&
+		!gs.bonuses.oneManShow &&
+		!gs.bonuses.oneShotWonder)
+	{
+		std::cout << "No bonuses :(\n";
+	}
+
+	std::cout << "===================================================" << std::endl;
 }
