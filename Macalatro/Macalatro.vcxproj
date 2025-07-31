@@ -141,6 +141,7 @@
     <ClCompile Include="AI.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Chance.cpp" />
+    <ClCompile Include="Consumables.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="Hand.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="AI.hpp" />
     <ClInclude Include="Card.hpp" />
     <ClInclude Include="Chance.hpp" />
+    <ClInclude Include="Consumables.hpp" />
     <ClInclude Include="Debug.hpp" />
     <ClInclude Include="Deck.hpp" />
     <ClInclude Include="Hand.hpp" />

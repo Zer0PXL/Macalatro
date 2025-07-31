@@ -18,7 +18,7 @@ enum Owner
 {
 	PLAYER,
 	OWNERAI,
-	NONE
+	NOOWNER
 };
 
 enum Ability
@@ -29,6 +29,16 @@ enum Ability
 	SKIP
 };
 
+enum Enhancement
+{
+	NONE,
+	EXTRAEN,
+	STICKY,
+	SWORDEN,
+	SPEAREN,
+	SHIELDEN
+};
+
 class Card
 {
 private:
@@ -37,8 +47,9 @@ private:
 	int id;
 	Owner owner;
 	Ability ability;
+	Enhancement enhancement;
 public:
-	Card(int r, Suit s, int id, Owner o, Ability a);
+	Card(int r, Suit s, int id, Owner o, Ability a, Enhancement e);
 	void print() const;
 	int getSuit() const;
 	void setSuit(Suit s);
@@ -52,4 +63,7 @@ public:
 	static bool isPlayable(std::shared_ptr<Card> cardToPlay, std::shared_ptr<Card> pileCard);
 	void actAbility(GameState& gs);
 	static Suit intToSuit(int interger);
+	Enhancement getEnhancement();
+	void setEnhancement(Enhancement e);
+	void actEnhancement(GameState& gs);
 };

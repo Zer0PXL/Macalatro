@@ -200,24 +200,60 @@ void Round::switchTurn(GameState& gs)
 
 void Round::calculateBonuses(GameState& gs)
 {
-	if (gs.bonuses.comeback) gs.score += 100; // Had over 10 cards, still won
-	else if (gs.bonuses.jokester) gs.score += 100; // Played both jokers
-	else if (gs.bonuses.royalty) gs.score += 200; // Played all four kings
-	else if (gs.bonuses.noDraw) gs.score += 150; // Didn't draw a single card
-	else if (gs.bonuses.oneManShow) gs.score += 100; // The AI didn't get to play a single card
-	else if (gs.bonuses.oneShotWonder) gs.score += 100; // Won by playing a single time
-}
-
-void Round::scoreBreakdown(GameState& gs)
-{
 	std::cout << "=====================BREAKDOWN=====================" << std::endl;
+	
+	if (gs.variables.draws > 0)
+	{
+		gs.score += gs.variables.draws * 10;
+		std::cout << "+ " << gs.variables.draws * 10 << " - Drawn cards\n";
+	}
+	if (gs.variables.skips > 0)
+	{
+		gs.score += gs.variables.skips * 50;
+		std::cout << "+ " << gs.variables.skips * 50 << " - Skip cards\n";
+	}
+	if (gs.variables.attacks > 0)
+	{
+		gs.score += gs.variables.attacks * 10;
+		std::cout << "+ " << gs.variables.attacks * 10 << " - Attack cards\n";
+	}
 
-	if (gs.bonuses.comeback) std::cout << "+ 100 - Comeback!\n";
-	if (gs.bonuses.jokester) std::cout << "+ 100 - Jokester!\n";
-	if (gs.bonuses.royalty) std::cout << "+ 200 - Royalty!\n";
-	if (gs.bonuses.noDraw) std::cout << "+ 150 - No Deck Needed!\n";
-	if (gs.bonuses.oneManShow) std::cout << "+ 100 - One Man Show!?\n";
-	if (gs.bonuses.oneShotWonder) std::cout << "+ 100 - ONE SHOT WONDER!?\n";
+	if (gs.gameOver == PLAYERWIN || gs.gameOver == NOAIDECK)
+	{
+		gs.score += 100;
+		std::cout << "+ 100 - Won!\n";
+	}
+
+	if (gs.bonuses.comeback)
+	{
+		gs.score += 75;
+		std::cout << "+ 75 - Comeback!\n";
+	}
+	if (gs.bonuses.jokester)
+	{
+		gs.score += 100;
+		std::cout << "+ 100 - Jokester!\n";
+	}
+	if (gs.bonuses.royalty)
+	{
+		gs.score += 200;
+		std::cout << "+ 200 - Royalty!\n";
+	}
+	if (gs.bonuses.noDraw)
+	{
+		gs.score += 150;
+		std::cout << "+ 150 - No Deck Needed!\n";
+	}
+	if (gs.bonuses.oneManShow)
+	{
+		gs.score += 200;
+		std::cout << "+ 200 - One Man Show!?\n";
+	}
+	if (gs.bonuses.oneShotWonder)
+	{
+		gs.score += 300;
+		std::cout << "+ 300 - ONE SHOT WONDER!?\n";
+	}
 	if (!gs.bonuses.comeback &&
 		!gs.bonuses.jokester &&
 		!gs.bonuses.royalty &&
@@ -229,4 +265,9 @@ void Round::scoreBreakdown(GameState& gs)
 	}
 
 	std::cout << "===================================================" << std::endl;
+}
+
+void Round::resetBonuses(GameState& gs) {
+	gs.bonuses = Bonuses();
+	gs.variables = Variables();
 }

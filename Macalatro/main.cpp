@@ -9,6 +9,7 @@
 #include "Round.hpp"
 #include "Debug.hpp"
 #include "AI.hpp"
+#include "Consumables.hpp"
 #include <memory>
 
 #ifdef _DEBUG
@@ -41,6 +42,7 @@ int main()
 	Table pile;
 	Turn turn;
 	GameOver gameOver = NOTOVER;
+	int turnNr = 0;
 
 	// Player inputs
 	Choice choice = INVALID;
@@ -50,14 +52,18 @@ int main()
 	bool playing = true;
 	int score = 0;
 	Bonuses bonuses;
+	Variables variables;
 
 	// GameState and Round creation
-	GameState gs{ playerDeck, aiDeck, playerHand, aiHand, pile, turn, gameOver, ai, score, bonuses };
+	GameState gs{ playerDeck, aiDeck, playerHand, aiHand, pile, turn, gameOver, ai, score, bonuses, variables };
 	Round round = Round(gs);
+	Round::resetBonuses(gs);
 
 	// Begining of game loop
 	while (round.isGameOver(gs) == NOTOVER)
 	{	
+		turnNr++;
+		
 		Debug::logTurn(gs);
 	
 		if (turn == PLAYERTURN)
@@ -109,44 +115,16 @@ int main()
 					gs.gameOver = PLAYERWIN;
 					choice = BYPASS;
 				}
-
-				if (stringInput == "play")
+				if (debugMode && stringInput == "useExtra")
 				{
-					/*std::cout << "How many cards would you like to play? one or more: ";
-
-					std::cin >> stringInput;
-
-					if (stringInput == "one") choice = PLAY;
-					else choice = PLAYMULTI;*/
-
-					choice = PLAYMULTI;
+					Consumables::useMAGIC(EXTRA, gs);
 				}
+
+				if (stringInput == "play") choice = PLAYMULTI;
 				else if (stringInput == "draw") choice = DRAW;
 
 				switch (choice)
 				{
-				// Deprecate
-				/*case PLAY:
-					std::cout << "Play what? Give ID: ";
-					std::cin >> intInput;
-
-					for (int i = 0; i < playerHand.getSize(); i++)
-					{
-						if (playerHand.getHand()[i]->getID() == intInput)
-						{
-							// If the card's rank or suit matches the pile's top card, then play it.
-							if (Card::isPlayable(playerHand.getHand()[i], pile.getCard()))
-							{
-								playerHand.getHand()[i]->actAbility(gs);
-								pile.addCard(playerHand.playCard(playerHand.getHand()[i]));
-								playing = false;
-							}
-							break;
-						}
-					}
-
-					if (playing) std::cout << "Couldn't play that card!\n";
-					break;*/
 
 				case PLAYMULTI:
 					std::cout << "Play what? Give IDs, then type -1: ";
@@ -154,11 +132,12 @@ int main()
 					do
 					{
 						std::cin >> intInput;
-						for (int i = 0; i < playerHand.getSize(); i++)
+						for (int i = 0; i < gs.playerHand.getSize(); i++)
 						{
-							if (playerHand.getHand()[i]->getID() == intInput)
+							if (gs.playerHand.getHand()[i]->getID() == intInput)
 							{
-								playerHand.getHand()[i]->actAbility(gs);
+								gs.playerHand.getHand()[i]->actAbility(gs);
+								gs.playerHand.getHand()[i]->actEnhancement(gs);
 								multiPlay.push_back(playerHand.getHand()[i]);
 
 								break;
@@ -168,7 +147,7 @@ int main()
 
 					if (!multiPlay.empty())
 					{
-						playerHand.playCards(multiPlay, gs);
+						gs.playerHand.playCards(multiPlay, gs);
 						playing = false;
 					}
 
@@ -179,11 +158,12 @@ int main()
 					if (!(gs.playerDeck.getSize() < 1))
 					{
 						gs.playerHand.addCard(playerDeck.draw());
-						gs.score += 10;
+						gs.variables.draws++;
+						gs.bonuses.noDraw = false;
 					}
 					else
 					{
-						gameOver = NOPLAYERDECK;
+						gs.gameOver = NOPLAYERDECK;
 					}
 					playing = false;
 					break;
@@ -198,7 +178,16 @@ int main()
 			Round::switchTurn(gs);
 			gs.ai.playTurn(gs);
 		}
+
+		if (gs.playerHand.getSize() >= 10)
+		{
+			gs.bonuses.comeback = true;
+		}
+
 	}
+
+	if (turnNr > 1) gs.bonuses.oneShotWonder = false;
+	if (turnNr > 5) gs.bonuses.speedster = false;
 
 	round.endRound(gs);
 
@@ -211,7 +200,6 @@ int main()
 					break;
     case PLAYERWIN:
 					std::cout << "The Player wins!\n";
-					gs.score += 100;
 					break;
     case AIWIN:
 					std::cout << "The AI wins!\n";
@@ -221,17 +209,17 @@ int main()
 					break;
     case NOAIDECK:
 					std::cout << "The AI ran out of cards! Player wins!\n";
-					gs.score += 100;
 					break;
     default:
 					std::cout << "X - Garbage data in GameOver???\n";
 					break;
     }
 
+	Round::calculateBonuses(gs);
+
+
 	std::cout << "Your score!" << std::endl;
 	std::cout << "=============================\n| " << gs.score << "|\n=============================\n";
-
-	Round::scoreBreakdown(gs);
 
 	std::cout << "Press any letter (then enter) to continue...";
 	std::cin >> stringInput;

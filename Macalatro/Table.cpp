@@ -33,7 +33,7 @@ std::shared_ptr<Card> Table::getCard()
 	{
 		Debug::log("!- 0 cards in pile!(how?)");
 
-		return std::make_shared<Card>(5, HEARTS, -2, NONE, BASIC);
+		return std::make_shared<Card>(5, HEARTS, -2, NOOWNER, BASIC, NONE);
 	}
 }
 

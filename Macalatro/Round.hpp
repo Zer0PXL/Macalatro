@@ -20,15 +20,22 @@ enum GameOver
 	NOAIDECK
 };
 
+struct Variables
+{
+	int draws = 0;
+	int attacks = 0;
+	int skips = 0;
+};
+
 struct Bonuses
 {
-	bool speedster = false;
+	bool speedster = true;
 	bool jokester = false;
 	bool royalty = false;
-	bool noDraw = false;
+	bool noDraw = true;
 	bool comeback = false;
-	bool oneManShow = false;
-	bool oneShotWonder = false;
+	bool oneManShow = true;
+	bool oneShotWonder = true;
 };
 
 struct GameState
@@ -43,8 +50,9 @@ struct GameState
 	AI& ai;
 	int& score;
 	Bonuses& bonuses;
+	Variables& variables;
 
-	GameState(Deck& pDeck, Deck& aDeck, Hand& pHand, Hand& aHand, Table& _pile, Turn& _turn, GameOver& gO, AI& AI, int& s, Bonuses& b) : playerDeck(pDeck), aiDeck(aDeck), playerHand(pHand), aiHand(aHand), pile(_pile), turn(_turn), gameOver(gO), ai(AI), score(s), bonuses(b) {}
+	GameState(Deck& pDeck, Deck& aDeck, Hand& pHand, Hand& aHand, Table& _pile, Turn& _turn, GameOver& gO, AI& AI, int& s, Bonuses& b, Variables& vars) : playerDeck(pDeck), aiDeck(aDeck), playerHand(pHand), aiHand(aHand), pile(_pile), turn(_turn), gameOver(gO), ai(AI), score(s), bonuses(b), variables(vars) {}
 };
 
 class Round
@@ -57,6 +65,6 @@ public:
 	void endRound(GameState& gs);
 	static void switchTurn(GameState& gs);
 	static void calculateBonuses(GameState& gs);
-	static void scoreBreakdown(GameState& gs);
+	static void resetBonuses(GameState& gs);
 };
 

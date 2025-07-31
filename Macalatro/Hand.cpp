@@ -19,7 +19,7 @@ std::shared_ptr<Card> Hand::playCard(const std::shared_ptr<Card> card)
 	
 	int size = hand.size();
 	int cardID = -1;
-	Card invalidCard(0, HEARTS, -1, NONE, BASIC);
+	Card invalidCard(0, HEARTS, -1, NOOWNER, BASIC, NONE);
 
 	for (int i = 0; i < size; i++)
 	{
@@ -77,7 +77,7 @@ void Hand::playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& 
 	{
 		Debug::log("! - No cards for playCards (how?)");
 
-		toPlay = { std::make_shared<Card>(0, HEARTS, -1, NONE, BASIC) };
+		toPlay = { std::make_shared<Card>(0, HEARTS, -1, NOOWNER, BASIC, NONE) };
 	}
 
 	int rankCheck = toPlay[0]->getRank();
@@ -95,6 +95,8 @@ void Hand::playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& 
 	for (int i = 0; i < toPlay.size(); i++)
 	{
 		Debug::log("[Hand.cpp] Checking if the card is playable...");
+		Debug::log("[Hand.cpp] The top card is:");
+		currentTop->print();
 		if (Card::isPlayable(toPlay[i], currentTop))
 		{
 			if (!(toPlay[i]->getAbility() == COLOR))

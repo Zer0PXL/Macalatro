@@ -45,6 +45,9 @@ void AI::playTurn(GameState& gs)
 {
 //	if (gs.turn == AITURN) Debug::log("============================\n", "[AI.cpp] The AI is thinking...\n", "============================");
 //	else Debug::log("[AI.cpp] X - It's not the AI's turn, but somehow, it's playing???");
+
+	gs.bonuses.oneManShow = false;
+	gs.bonuses.oneShotWonder = false;
 	
 	std::cout << "============================\n" << "The AI is thinking...\n" << "============================\n";
 
@@ -65,7 +68,7 @@ void AI::playTurn(GameState& gs)
 			if (hand[i]->getRank() == -1) playable.push_back(hand[i]); // Jokers are always playable
 		}
 
-		std::shared_ptr<Card> temporaryCard = std::make_shared<Card>(0, HEARTS, 0, NONE, BASIC);
+		std::shared_ptr<Card> temporaryCard = std::make_shared<Card>(0, HEARTS, 0, NOOWNER, BASIC, NONE);
 		std::vector<std::shared_ptr<Card>> temporaryCards;
 
 		if (playable.size() < 1)

@@ -33,19 +33,19 @@ Deck::Deck(Owner owner)
 		{
 			if (r == 1)
 			{
-				cards.push_back(std::make_shared<Card>(r, Card::intToSuit(s), ucid, owner, COLOR));
+				cards.push_back(std::make_shared<Card>(r, Card::intToSuit(s), ucid, owner, COLOR, NONE));
 			}
 			else if (r == 2 || r == 3 || r == -1)
 			{
-				cards.push_back(std::make_shared<Card>(r, Card::intToSuit(s), ucid, owner, DRAWABILITY));
+				cards.push_back(std::make_shared<Card>(r, Card::intToSuit(s), ucid, owner, DRAWABILITY, NONE));
 			}
 			else if (r == 4)
 			{
-				cards.push_back(std::make_shared<Card>(r, Card::intToSuit(s), ucid, owner, SKIP));
+				cards.push_back(std::make_shared<Card>(r, Card::intToSuit(s), ucid, owner, SKIP, NONE));
 			}
 			else
 			{
-				cards.push_back(std::make_shared<Card>(r, Card::intToSuit(s), ucid, owner, BASIC));
+				cards.push_back(std::make_shared<Card>(r, Card::intToSuit(s), ucid, owner, BASIC, NONE));
 			}
 			ucid++;
 
@@ -54,9 +54,9 @@ Deck::Deck(Owner owner)
 		}
 
 	// Add jokers
-	cards.push_back(std::make_shared<Card>(-1, BLACKJOKER, ucid, owner, DRAWABILITY));
+	cards.push_back(std::make_shared<Card>(-1, BLACKJOKER, ucid, owner, DRAWABILITY, NONE));
 	ucid++;
-	cards.push_back(std::make_shared<Card>(-1, REDJOKER, ucid, owner, DRAWABILITY));
+	cards.push_back(std::make_shared<Card>(-1, REDJOKER, ucid, owner, DRAWABILITY, NONE));
 	ucid++;
 }
 

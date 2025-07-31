@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-Card::Card(int r, Suit s, int id, Owner o, Ability a) : rank(r), suit(s), id(id), owner(o), ability (a) {}
+Card::Card(int r, Suit s, int id, Owner o, Ability a, Enhancement e) : rank(r), suit(s), id(id), owner(o), ability(a), enhancement(e) {}
 
 void Card::print() const
 {
@@ -14,17 +14,17 @@ void Card::print() const
 	if (debugMode)
 	{
 		if (suit == HEARTS)
-			std::cout << rank << " of Hearts (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+			std::cout << rank << " of Hearts (ID: " << id << ", Owner: " << ownerString << ", Ability: " << Debug::abilityToString(ability) << ", Enhancement: " << Debug::enhancementToString(enhancement) << ")" << std::endl;
 		else if (suit == SPADES)
-			std::cout << rank << " of Spades (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+			std::cout << rank << " of Spades (ID: " << id << ", Owner: " << ownerString << ", Ability: " << Debug::abilityToString(ability) << ", Enhancement: " << Debug::enhancementToString(enhancement) << ")" << std::endl;
 		else if (suit == DIAMONDS)
-			std::cout << rank << " of Diamonds (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+			std::cout << rank << " of Diamonds (ID: " << id << ", Owner: " << ownerString << ", Ability: " << Debug::abilityToString(ability) << ", Enhancement: " << Debug::enhancementToString(enhancement) << ")" << std::endl;
 		else if (suit == CLUBS)
-			std::cout << rank << " of Clubs (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+			std::cout << rank << " of Clubs (ID: " << id << ", Owner: " << ownerString << ", Ability: " << Debug::abilityToString(ability) << ", Enhancement: " << Debug::enhancementToString(enhancement) << ")" << std::endl;
 		else if (suit == BLACKJOKER)
-			std::cout << "Black Joker (ID:" << id << ", Owner : " << ownerString << ", Ability : " << Debug::abilityToString(ability) << ")" << std::endl;
+			std::cout << "Black Joker (ID: " << id << ", Owner: " << ownerString << ", Ability: " << Debug::abilityToString(ability) << ", Enhancement: " << Debug::enhancementToString(enhancement) << ")" << std::endl;
 		else if (suit == REDJOKER)
-			std::cout << "Red Joker (ID:" << id << ", Owner:" << ownerString << ", Ability:" << Debug::abilityToString(ability) << ")" << std::endl;
+			std::cout << "Red Joker (ID: " << id << ", Owner: " << ownerString << ", Ability: " << Debug::abilityToString(ability) << ", Enhancement: " << Debug::enhancementToString(enhancement) << ")" << std::endl;
 		else
 			std::cout << "Invalid card (ID: " << id << ")" << std::endl;
 	}
@@ -84,6 +84,10 @@ void Card::setOwner(Owner o)
 
 bool Card::isPlayable(std::shared_ptr<Card> cardToPlay, std::shared_ptr<Card> pileCard)
 {
+	Debug::log("[Card.cpp] Checking if these two cards are playable:");
+	cardToPlay->print();
+	pileCard->print();
+	
 	if (cardToPlay->getRank() == pileCard->getRank()) Debug::log("[Card.hpp] That card has the same rank as the card on the pile!");
 	else if (cardToPlay->getSuit() == pileCard->getSuit()) Debug::log("[Card.hpp] That card has the same suit as the card on the pile!");
 	else if (cardToPlay->getRank() == -1) Debug::log("[Card.hpp] That card is a Joker!");
@@ -133,7 +137,7 @@ void Card::actAbility(GameState& gs)
 				if (targetDeck->getSize() > 0)
 				{
 					targetHand->addCard(targetDeck->draw());
-					if (owner == PLAYER) gs.score += 10;
+					if (owner == PLAYER) gs.variables.attacks++;
 				}
 				else
 				{
@@ -151,7 +155,7 @@ void Card::actAbility(GameState& gs)
 				if (targetDeck->getSize() > 0)
 				{
 					targetHand->addCard(targetDeck->draw());
-					if (owner == PLAYER) gs.score += 10;
+					if (owner == PLAYER) gs.variables.attacks++;
 				}
 				else
 				{
@@ -169,7 +173,7 @@ void Card::actAbility(GameState& gs)
 				if (targetDeck->getSize() > 0)
 				{
 					targetHand->addCard(targetDeck->draw());
-					if (owner == PLAYER) gs.score += 10;
+					if (owner == PLAYER) gs.variables.attacks++;
 				}
 				else
 				{
@@ -207,7 +211,7 @@ void Card::actAbility(GameState& gs)
 			else if (stringInput == "clubs") suitToChangeTo = CLUBS;
 			else std::cout << "That's not a suit!";
 
-			gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
+			gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NOOWNER, BASIC, NONE));
 		}
 		else
 		{
@@ -234,7 +238,7 @@ void Card::actAbility(GameState& gs)
 					std::cout << "X - Random chance broken???\n";
 					break;
 				}
-				gs.pile.addCard(std::make_shared<Card>(1, randomSuit, 0, NONE, BASIC));
+				gs.pile.addCard(std::make_shared<Card>(1, randomSuit, 0, NOOWNER, BASIC, NONE));
 			}
 			else if (gs.ai.getDifficulty() == SMART)
 			{
@@ -258,7 +262,7 @@ void Card::actAbility(GameState& gs)
 					std::cout << "X - Invalid best suit!\n";
 					break;
 				}
-				gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NONE, BASIC));
+				gs.pile.addCard(std::make_shared<Card>(1, suitToChangeTo, 0, NOOWNER, BASIC, NONE));
 			}
 		}
 		break;
@@ -267,7 +271,7 @@ void Card::actAbility(GameState& gs)
 		if (owner == PLAYER)
 		{
 			gs.turn = PLAYERTURN;
-			gs.score += 50;
+			//gs.score += 50;
 		}
 		else if (owner == OWNERAI) gs.turn = AITURN;
 		else std::cout << "X - uh... SKIP ability called by invalid card with no owner?\n";
@@ -299,5 +303,23 @@ Suit Card::intToSuit(int interger)
 		std::cout << "X - Invalid interger for intToSuit()\n";
 		return HEARTS;
 		break;
+	}
+}
+
+Enhancement Card::getEnhancement()
+{
+	return enhancement;
+}
+
+void Card::setEnhancement(Enhancement e)
+{
+	enhancement = e;
+}
+
+void Card::actEnhancement(GameState& gs)
+{
+	if (enhancement == EXTRAEN)
+	{
+		gs.score += 10;
 	}
 }

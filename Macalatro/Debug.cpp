@@ -104,3 +104,31 @@ std::string Debug::abilityToString(Ability a)
 		break;
 	}
 }
+
+std::string Debug::enhancementToString(Enhancement e)
+{
+	switch (e)
+	{
+	case EXTRAEN:
+		return "extra";
+		break;
+	case STICKY:
+		return "sticky";
+		break;
+	case SWORDEN:
+		return "sword";
+		break;
+	case SPEAREN:
+		return "spear";
+		break;
+	case SHIELDEN:
+		return "shield";
+		break;
+	case NONE:
+		return "none";
+		break;
+	default:
+		return "invalid????????";
+		break;
+	}
+}
