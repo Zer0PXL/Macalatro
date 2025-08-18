@@ -12,7 +12,7 @@
 #include "Consumables.hpp"
 #include <memory>
 
-#ifdef _DEBUG
+#ifdef DEBUG
 bool debugMode = true;
 bool cheats = true;
 #else

@@ -1,6 +1,7 @@
 #include "Chance.hpp"
 #include "Debug.hpp"
 #include <random>
+#include <ctime>
 #include <string>
 
 int Chance::chance(int x, int y)

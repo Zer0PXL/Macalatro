@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
+#include "Turn.hpp"
 
 struct GameState;
-enum Turn;
 
 enum Suit
 {
