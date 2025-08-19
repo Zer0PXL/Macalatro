@@ -336,13 +336,38 @@ void Card::setEnhancement(Enhancement e)
 
 void Card::actEnhancement(GameState& gs)
 {
-	if (enhancement == EXTRAEN)
+	int randomCard;
+	
+	switch (enhancement)
 	{
-		gs.score += 10;
-	}
+		case EXTRAEN:
+			gs.score += 10;
+			std::cout << "+ 10!\n";
+			break;
+		
+		case STICKY:
+			randomCard = Chance::chance(0, gs.playerHand.getSize());
+			gs.playerHand.playCards({gs.playerHand.getHand()[randomCard]}, gs);
+	}	
 }
 
 void Card::setID(int newID)
 {
 	id = newID;
+}
+
+void Card::resetAbility()
+{
+	if (rank == 1)
+	{
+		ability = COLOR;
+	}
+	if (rank == 2 || rank == 3)
+	{
+		ability = DRAWABILITY;
+	}
+	else if (rank == 4)
+	{
+		ability = SKIP;
+	}
 }

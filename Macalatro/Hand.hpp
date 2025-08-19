@@ -16,6 +16,6 @@ public:
 	std::shared_ptr<Card> playCard(const std::shared_ptr<Card> card);
 	void playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& gs);
 	int getSize();
-	std::vector<std::shared_ptr<Card>> getHand();
+	std::vector<std::shared_ptr<Card>>& getHand();
 };
 

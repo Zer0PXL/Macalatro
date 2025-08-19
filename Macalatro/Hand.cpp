@@ -128,7 +128,7 @@ int Hand::getSize()
 	return hand.size();
 }
 
-std::vector<std::shared_ptr<Card>> Hand::getHand()
+std::vector<std::shared_ptr<Card>>& Hand::getHand()
 {
 	return hand;
 }

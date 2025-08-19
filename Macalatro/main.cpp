@@ -12,7 +12,7 @@
 #include "Consumables.hpp"
 #include <memory>
 
-#ifdef _DEBUG
+#ifdef DEBUG
 bool debugMode = true;
 bool cheats = true;
 #else
@@ -90,6 +90,11 @@ int main()
 					Debug::toggleCheats();
 					choice = INVALID;
 				}
+				if (debugMode && stringInput == "difficulty=noai") 
+				{
+					gs.ai.changeDifficulty(NOAI);
+					choice = INVALID;
+				}
 				if (debugMode && stringInput == "difficulty=dumb") 
 				{
 					gs.ai.changeDifficulty(DUMB);
@@ -121,26 +126,129 @@ int main()
 
 					std::cin >> stringInput;
 
-					if (stringInput == "EXTRA") Consumables::useMAGIC(EXTRA, gs);
-					else if (stringInput == "GLUETUBE") Consumables::useMAGIC(GLUETUBE, gs);
-					else if (stringInput == "LOVE") Consumables::useMAGIC(LOVE, gs);
-					else if (stringInput == "HATE") Consumables::useMAGIC(HATE, gs);
-					else if (stringInput == "RICH") Consumables::useMAGIC(RICH, gs);
-					else if (stringInput == "TREE") Consumables::useMAGIC(TREE, gs);
-					else if (stringInput == "MORE") Consumables::useMAGIC(MORE, gs);
-					else if (stringInput == "LESS") Consumables::useMAGIC(LESS, gs);
-					else if (stringInput == "SWORD") Consumables::useMAGIC(SWORD, gs);
-					else if (stringInput == "SPEAR") Consumables::useMAGIC(SPEAR, gs);
-					else if (stringInput == "SHIELD") Consumables::useMAGIC(SHIELD, gs);
-					else if (stringInput == "PEEKABOO") Consumables::useMAGIC(PEEKABOO, gs);
-					else if (stringInput == "BLANK") Consumables::useMAGIC(BLANK, gs);
-					else if (stringInput == "LOSTCRAYON") Consumables::useMAGIC(LOSTCRAYON, gs);
-					else if (stringInput == "RIP") Consumables::useMAGIC(RIP, gs);
-					else if (stringInput == "WILDACE") Consumables::useMAGIC(WILDACE, gs);
-					else if (stringInput == "ADOLLAH") Consumables::useMAGIC(ADOLLAH, gs);
-					else if (stringInput == "COINFLIP") Consumables::useMAGIC(COINFLIP, gs);
-					else if (stringInput == "SMOKEBOMB") Consumables::useMAGIC(SMOKEBOMB, gs);
-					else std::cout << "Not a MAGIC card!";
+					if (stringInput == "EXTRA")
+					{
+						Consumables::useMAGIC(EXTRA, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "GLUETUBE")
+					{
+						Consumables::useMAGIC(GLUETUBE, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "LOVE") 
+					{
+						Consumables::useMAGIC(LOVE, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "HATE")
+					{
+						Consumables::useMAGIC(HATE, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "RICH") 
+					{
+						Consumables::useMAGIC(RICH, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "TREE") 
+					{
+						Consumables::useMAGIC(TREE, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "MORE") 
+					{
+						Consumables::useMAGIC(MORE, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "LESS") 
+					{
+						Consumables::useMAGIC(LESS, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "SWORD") 
+					{
+						Consumables::useMAGIC(SWORD, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "SPEAR") 
+					{
+						Consumables::useMAGIC(SPEAR, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "SHIELD") 
+					{
+						Consumables::useMAGIC(SHIELD, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "PEEKABOO") 
+					{
+						Consumables::useMAGIC(PEEKABOO, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "BLANK") 
+					{
+						Consumables::useMAGIC(BLANK, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "LOSTCRAYON") 
+					{
+						Consumables::useMAGIC(LOSTCRAYON, gs);
+						choice = INVALID;
+					}
+					
+					else if (stringInput == "RIP") 
+					{
+						Consumables::useMAGIC(RIP, gs);
+						if (playerHand.getSize() == 0)
+						{
+							choice = BYPASS;
+						}
+						else choice = INVALID;
+					}
+
+					else if (stringInput == "WILDACE") 
+					{
+						Consumables::useMAGIC(WILDACE, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "ADOLLAH") 
+					{
+						Consumables::useMAGIC(ADOLLAH, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "COINFLIP") 
+					{
+						Consumables::useMAGIC(COINFLIP, gs);
+						choice = INVALID;
+					}
+
+					else if (stringInput == "SMOKEBOMB") 
+					{
+						Consumables::useMAGIC(SMOKEBOMB, gs);
+						choice = INVALID;
+					}
+
+					else
+					{
+						std::cout << "Not a MAGIC card!";
+						choice = INVALID;
+					}
 				}
 
 				if (stringInput == "play") choice = PLAYMULTI;
@@ -201,6 +309,8 @@ int main()
 			Round::switchTurn(gs);
 			gs.ai.playTurn(gs);
 		}
+
+
 
 		if (gs.playerHand.getSize() >= 10)
 		{

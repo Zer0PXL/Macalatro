@@ -106,7 +106,7 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 		break;
 
 	case MORE:
-		for (int j = 1; j < 2; j++)
+		for (int j = 0; j < 2; j++)
 		{
 			std::cout << "What card? Give ID: ";
 			std::cin >> intInput;
@@ -115,7 +115,20 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 			{
 				if (gs.playerHand.getHand()[i]->getID() == intInput)
 				{
-					gs.playerHand.getHand()[i]->setRank(gs.playerHand.getHand()[i]->getRank() + 1);
+					if (gs.playerHand.getHand()[i]->getRank() != 13)
+					{
+						gs.playerHand.getHand()[i]->setRank(gs.playerHand.getHand()[i]->getRank() + 1);
+					}
+					else
+					{
+						gs.playerHand.getHand()[i]->setRank(1);
+					}
+
+					if (gs.playerHand.getHand()[i]->getEnhancement() == NONE)
+					{
+						gs.playerHand.getHand()[i]->resetAbility();
+					}
+
 					foundIt = true;
 					break;
 				}
@@ -132,7 +145,7 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 
 	case LESS:
 
-		for (int j = 1; j < 2; j++)
+		for (int j = 0; j < 2; j++)
 		{
 			std::cout << "What card? Give ID: ";
 			std::cin >> intInput;
@@ -141,7 +154,20 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 			{
 				if (gs.playerHand.getHand()[i]->getID() == intInput)
 				{
-					gs.playerHand.getHand()[i]->setRank(gs.playerHand.getHand()[i]->getRank() - 1);
+					if (gs.playerHand.getHand()[i]->getRank() != 1)
+					{
+						gs.playerHand.getHand()[i]->setRank(gs.playerHand.getHand()[i]->getRank() - 1);
+					}
+					else
+					{
+						gs.playerHand.getHand()[i]->setRank(13);
+					}
+
+					if (gs.playerHand.getHand()[i]->getEnhancement() == NONE)
+					{
+						gs.playerHand.getHand()[i]->resetAbility();
+					}
+
 					foundIt = true;
 					break;
 				}
@@ -173,7 +199,7 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 
 	case PEEKABOO:
 		std::cout << "Peek-a-boo! Here are the top three cards in your deck:\n";
-		for (int i = 0; i <= 2; i++)
+		for (int i = 1; i <= 3; i++)
 		{
 			gs.playerDeck.getDeck()[gs.playerDeck.getSize() - i]->print();
 		}
@@ -190,11 +216,11 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 		break;
 
 	case LOSTCRAYON:
-		std::cout << "Card to transform to: ";
-		std::cin >> intInput;
-
 		while (!foundIt)
 		{
+			std::cout << "Card to transform: ";
+			std::cin >> intInput;
+
 			for (int i = 0; i < gs.playerHand.getSize(); i++)
 			{
 				if (gs.playerHand.getHand()[i]->getID() == intInput)
@@ -214,11 +240,14 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 		
 		foundIt = false;
 
-		std::cout << "Card to transform: ";
+		std::cout << "Card to transform to: ";
 		std::cin >> intInput;
 
 		while (!foundIt)
 		{
+			std::cout << "Card to transform to: ";
+			std::cin >> intInput;
+
 			for (int i = 0; i < gs.playerHand.getSize(); i++)
 			{
 				if (gs.playerHand.getHand()[i]->getID() == intInput)
@@ -227,11 +256,11 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 					foundIt = true;
 					break;
 				}
-
-				if (!foundIt)
-				{
-					std::cout << "Couldn't find it!\n";
-				}
+			}
+			
+			if (!foundIt)
+			{
+				std::cout << "Couldn't find it!\n";
 			}
 		}
 
@@ -242,11 +271,11 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 		break;
 
 	case RIP:
-		std::cout << "Card to rip: ";
-		std::cin >> intInput;
-
 		while (!foundIt)
 		{
+			std::cout << "Card to rip: ";
+			std::cin >> intInput;
+			
 			for (int i = 0; i < gs.playerHand.getSize(); i++)
 			{
 				if (gs.playerHand.getHand()[i]->getID() == intInput)
@@ -255,11 +284,11 @@ void Consumables::useMAGIC(MAGIC magic, GameState& gs)
 					foundIt = true;
 					break;
 				}
+			}
 
-				if (!foundIt)
-				{
-					std::cout << "Couldn't find it!\n";
-				}
+			if (!foundIt)
+			{
+				std::cout << "Couldn't find it!\n";
 			}
 		}
 

@@ -66,4 +66,5 @@ public:
 	Enhancement getEnhancement();
 	void setEnhancement(Enhancement e);
 	void actEnhancement(GameState& gs);
+	void resetAbility();
 };

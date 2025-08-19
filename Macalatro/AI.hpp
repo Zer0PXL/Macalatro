@@ -5,6 +5,7 @@
 
 enum Difficulty
 {
+	NOAI,
 	DUMB,
 	SMART,
 	CHEATER

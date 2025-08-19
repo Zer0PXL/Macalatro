@@ -45,20 +45,26 @@ void AI::playTurn(GameState& gs)
 {
 //	if (gs.turn == AITURN) Debug::log("============================\n", "[AI.cpp] The AI is thinking...\n", "============================");
 //	else Debug::log("[AI.cpp] X - It's not the AI's turn, but somehow, it's playing???");
-
-	if (smoked)
-	{
-		smoked = false;
-		gs.turn = PLAYERTURN;
-		return;
-	}
 	
 	gs.bonuses.oneManShow = false;
 	gs.bonuses.oneShotWonder = false;
 	
 	std::cout << "============================\n" << "The AI is thinking...\n" << "============================\n";
 
-	if (difficulty == DUMB)
+	if (smoked)
+	{
+		std::cout << "*cough cough*\n";
+		smoked = false;
+		gs.turn = PLAYERTURN;
+		std::cout << "============================\n" << "AI's turn is over\n" << "============================\n";
+		return;
+	}
+
+	if (difficulty == NOAI)
+	{
+		std::cout << "Nevermind! It's off!\n";
+	}
+	else if (difficulty == DUMB)
 	{
 		// Just plays the first legal card(s), if it can't play anything, just draw.
 		const std::vector<std::shared_ptr<Card>>& hand = gs.aiHand.getHand();
