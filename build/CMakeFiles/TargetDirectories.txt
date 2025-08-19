@@ -1,3 +1,0 @@
-/home/emm/repos/Macalatro/build/CMakeFiles/Macalatro.dir
-/home/emm/repos/Macalatro/build/CMakeFiles/edit_cache.dir
-/home/emm/repos/Macalatro/build/CMakeFiles/rebuild_cache.dir
