@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "RelWithDebInfo/Macalatro"
+			"path" : "Debug/Macalatro"
 		}
 	],
 	"backtrace" : 1,
@@ -12,6 +12,7 @@
 		[
 			"add_executable",
 			"target_link_libraries",
+			"target_compile_definitions",
 			"target_include_directories"
 		],
 		"files" : 
@@ -38,6 +39,12 @@
 			{
 				"command" : 2,
 				"file" : 0,
+				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
 				"line" : 14,
 				"parent" : 0
 			}
@@ -49,13 +56,20 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-O2 -g -DNDEBUG -std=gnu++17"
+					"fragment" : "-g -std=gnu++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 3,
+					"define" : "DEBUG"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "/home/emm/repos/Macalatro/src"
 				}
 			],
@@ -79,7 +93,7 @@
 				12,
 				14,
 				16,
-				19
+				18
 			]
 		}
 	],
@@ -89,7 +103,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-O2 -g -DNDEBUG",
+				"fragment" : "-g",
 				"role" : "flags"
 			},
 			{
@@ -146,7 +160,7 @@
 				12,
 				14,
 				16,
-				19
+				18
 			]
 		},
 		{
@@ -161,8 +175,7 @@
 				11,
 				13,
 				15,
-				17,
-				18
+				17
 			]
 		}
 	],
@@ -265,11 +278,6 @@
 		{
 			"backtrace" : 1,
 			"path" : "Macalatro/Table.hpp",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"path" : "Macalatro/Turn.hpp",
 			"sourceGroupIndex" : 1
 		},
 		{

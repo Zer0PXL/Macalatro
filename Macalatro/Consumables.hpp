@@ -22,7 +22,8 @@ enum MAGIC
 	WILDACE, // Playable at any time to change suit
 	ADOLLAH, // Gives 10 coins
 	COINFLIP, // 1 in 2 chance to give 20 coins
-	SMOKEBOMB // Playable at any time to skip the AI
+	SMOKEBOMB, // Playable at any time to skip the AI
+	INVALIDMAGIC // Just in case
 };
 
 class Consumables

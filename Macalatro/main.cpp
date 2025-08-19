@@ -12,7 +12,7 @@
 #include "Consumables.hpp"
 #include <memory>
 
-#ifdef DEBUG
+#ifdef _DEBUG
 bool debugMode = true;
 bool cheats = true;
 #else
@@ -115,9 +115,32 @@ int main()
 					gs.gameOver = PLAYERWIN;
 					choice = BYPASS;
 				}
-				if (debugMode && stringInput == "useExtra")
+				if (debugMode && stringInput == "useMAGIC")
 				{
-					Consumables::useMAGIC(EXTRA, gs);
+					std::cout << "Which one? (EXTRA, GLUETUBE, LOVE, HATE, RICH, TREE, MORE, LESS, SWORD, SPEAR, SHIELD, PEEKABOO, BLANK, LOSTCRAYON, RIP, WILDACE, ADOLLAH, COINFLIP, SMOKEBOMB) ";
+
+					std::cin >> stringInput;
+
+					if (stringInput == "EXTRA") Consumables::useMAGIC(EXTRA, gs);
+					else if (stringInput == "GLUETUBE") Consumables::useMAGIC(GLUETUBE, gs);
+					else if (stringInput == "LOVE") Consumables::useMAGIC(LOVE, gs);
+					else if (stringInput == "HATE") Consumables::useMAGIC(HATE, gs);
+					else if (stringInput == "RICH") Consumables::useMAGIC(RICH, gs);
+					else if (stringInput == "TREE") Consumables::useMAGIC(TREE, gs);
+					else if (stringInput == "MORE") Consumables::useMAGIC(MORE, gs);
+					else if (stringInput == "LESS") Consumables::useMAGIC(LESS, gs);
+					else if (stringInput == "SWORD") Consumables::useMAGIC(SWORD, gs);
+					else if (stringInput == "SPEAR") Consumables::useMAGIC(SPEAR, gs);
+					else if (stringInput == "SHIELD") Consumables::useMAGIC(SHIELD, gs);
+					else if (stringInput == "PEEKABOO") Consumables::useMAGIC(PEEKABOO, gs);
+					else if (stringInput == "BLANK") Consumables::useMAGIC(BLANK, gs);
+					else if (stringInput == "LOSTCRAYON") Consumables::useMAGIC(LOSTCRAYON, gs);
+					else if (stringInput == "RIP") Consumables::useMAGIC(RIP, gs);
+					else if (stringInput == "WILDACE") Consumables::useMAGIC(WILDACE, gs);
+					else if (stringInput == "ADOLLAH") Consumables::useMAGIC(ADOLLAH, gs);
+					else if (stringInput == "COINFLIP") Consumables::useMAGIC(COINFLIP, gs);
+					else if (stringInput == "SMOKEBOMB") Consumables::useMAGIC(SMOKEBOMB, gs);
+					else std::cout << "Not a MAGIC card!";
 				}
 
 				if (stringInput == "play") choice = PLAYMULTI;

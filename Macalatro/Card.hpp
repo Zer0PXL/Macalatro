@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include "Turn.hpp"
 
 struct GameState;
 
@@ -56,6 +55,7 @@ public:
 	int getRank() const;
 	void setRank(int r);
 	int getID() const;
+	void setID(int newID);
 	Owner getOwner() const;
 	void setOwner(Owner o);
 	Ability getAbility() const;

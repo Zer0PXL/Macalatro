@@ -50,6 +50,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/AI.cpp.o: CXX_COMPILER__Macalatro
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/Card.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/Card.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -58,6 +60,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/Card.cpp.o: CXX_COMPILER__Macalat
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/Chance.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/Chance.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -66,6 +70,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/Chance.cpp.o: CXX_COMPILER__Macal
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/Consumables.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/Consumables.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -74,6 +80,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/Consumables.cpp.o: CXX_COMPILER__
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/Debug.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/Debug.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -82,6 +90,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/Debug.cpp.o: CXX_COMPILER__Macala
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/Deck.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/Deck.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -90,6 +100,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/Deck.cpp.o: CXX_COMPILER__Macalat
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/Hand.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/Hand.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -98,6 +110,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/Hand.cpp.o: CXX_COMPILER__Macalat
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/Round.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/Round.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -106,6 +120,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/Round.cpp.o: CXX_COMPILER__Macala
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/Table.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/Table.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -114,6 +130,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/Table.cpp.o: CXX_COMPILER__Macala
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Debug/Macalatro/main.cpp.o: CXX_COMPILER__Macalatro_unscanned_Debug /home/emm/repos/Macalatro/Macalatro/main.cpp || cmake_object_order_depends_target_Macalatro_DEBUG
   DEFINES = -DDEBUG -DCMAKE_INTDIR=\"Debug\"
@@ -122,6 +140,8 @@ build CMakeFiles/Macalatro.dir/Debug/Macalatro/main.cpp.o: CXX_COMPILER__Macalat
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Debug/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
+  TARGET_PDB = Debug/Macalatro.pdb
 
 
 # =============================================================================
@@ -139,8 +159,9 @@ build Debug/Macalatro: CXX_EXECUTABLE_LINKER__Macalatro_Debug CMakeFiles/Macalat
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Debug
   POST_BUILD = :
   PRE_LINK = :
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Debug/
   TARGET_FILE = Debug/Macalatro
-  TARGET_PDB = Macalatro.dbg
+  TARGET_PDB = Debug/Macalatro.pdb
 
 build Macalatro$:Debug: phony Debug/Macalatro
 

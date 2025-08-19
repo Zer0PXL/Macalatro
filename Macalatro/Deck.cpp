@@ -85,3 +85,8 @@ int Deck::getSize()
 {
 	return cards.size();
 }
+
+std::vector<std::shared_ptr<Card>> Deck::getDeck()
+{
+	return cards;
+}

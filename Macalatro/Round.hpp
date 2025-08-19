@@ -3,8 +3,13 @@
 #include "Hand.hpp"
 #include "Table.hpp"
 #include "AI.hpp"
-#include "Turn.hpp"
 #include <memory>
+
+enum Turn
+{
+	PLAYERTURN,
+	AITURN
+};
 
 enum GameOver
 {

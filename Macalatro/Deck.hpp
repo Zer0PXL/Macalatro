@@ -17,4 +17,5 @@ public:
 	void shuffle();
 	void addCard(std::shared_ptr<Card> c);
 	int getSize();
+	std::vector<std::shared_ptr<Card>> getDeck();
 };

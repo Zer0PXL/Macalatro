@@ -129,9 +129,8 @@ void Card::actAbility(GameState& gs)
 	{
 	case DRAWABILITY:
 		Debug::log("[Card.cpp] DRAWABILITY");
-		switch (rank)
-		{
-		case 2:
+        if (rank == 2 || enhancement == SPEAREN)
+        {
 			for (int i = 1; i <= 2; i++)
 			{
 				if (targetDeck->getSize() > 0)
@@ -148,14 +147,15 @@ void Card::actAbility(GameState& gs)
 					else gs.gameOver = NOAIDECK;
 				}
 			}
-			break;
-		case 3:
+        }
+        else if (rank == 3)
+        {
 			for (int i = 1; i <= 3; i++)
 			{
 				if (targetDeck->getSize() > 0)
 				{
-					targetHand->addCard(targetDeck->draw());
-					if (owner == PLAYER) gs.variables.attacks++;
+					 targetHand->addCard(targetDeck->draw());
+					 if (owner == PLAYER) gs.variables.attacks++;
 				}
 				else
 				{
@@ -166,8 +166,9 @@ void Card::actAbility(GameState& gs)
 					else gs.gameOver = NOAIDECK;
 				}
 			}
-			break;
-		case -1:
+        }
+        else if (rank == -1)
+        {
 			for (int i = 1; i <= 5; i++)
 			{
 				if (targetDeck->getSize() > 0)
@@ -184,10 +185,27 @@ void Card::actAbility(GameState& gs)
 					else gs.gameOver = NOAIDECK;
 				}
 			}
-			break;
-		default:
-			std::cout << "X - Invalid rank for DRAWABILITY (how!?!)\n";
+        }
+		else if (enhancement == SWORDEN)
+		{
+			if (targetDeck->getSize() > 0)
+			{
+				targetHand->addCard(targetDeck->draw());
+				if (owner == PLAYER) gs.variables.attacks++;
+			}
+			else
+			{
+				if (owner == OWNERAI)
+				{
+					gs.gameOver = NOPLAYERDECK;
+				}
+				else gs.gameOver = NOAIDECK;
+			}
 		}
+        else
+		{
+			std::cout << "X - Invalid rank for DRAWABILITY (how!?!)\n";
+        }
 
 		if (owner == PLAYER) 
 		{
@@ -322,4 +340,9 @@ void Card::actEnhancement(GameState& gs)
 	{
 		gs.score += 10;
 	}
+}
+
+void Card::setID(int newID)
+{
+	id = newID;
 }

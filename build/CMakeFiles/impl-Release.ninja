@@ -50,6 +50,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/AI.cpp.o: CXX_COMPILER__Macalat
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/Card.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/Card.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -58,6 +60,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/Card.cpp.o: CXX_COMPILER__Macal
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/Chance.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/Chance.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -66,6 +70,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/Chance.cpp.o: CXX_COMPILER__Mac
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/Consumables.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/Consumables.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -74,6 +80,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/Consumables.cpp.o: CXX_COMPILER
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/Debug.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/Debug.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -82,6 +90,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/Debug.cpp.o: CXX_COMPILER__Maca
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/Deck.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/Deck.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -90,6 +100,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/Deck.cpp.o: CXX_COMPILER__Macal
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/Hand.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/Hand.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -98,6 +110,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/Hand.cpp.o: CXX_COMPILER__Macal
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/Round.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/Round.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -106,6 +120,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/Round.cpp.o: CXX_COMPILER__Maca
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/Table.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/Table.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -114,6 +130,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/Table.cpp.o: CXX_COMPILER__Maca
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 build CMakeFiles/Macalatro.dir/Release/Macalatro/main.cpp.o: CXX_COMPILER__Macalatro_unscanned_Release /home/emm/repos/Macalatro/Macalatro/main.cpp || cmake_object_order_depends_target_Macalatro_RELEASE
   DEFINES = -DCMAKE_INTDIR=\"Release\"
@@ -122,6 +140,8 @@ build CMakeFiles/Macalatro.dir/Release/Macalatro/main.cpp.o: CXX_COMPILER__Macal
   INCLUDES = -I/home/emm/repos/Macalatro/src
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   OBJECT_FILE_DIR = CMakeFiles/Macalatro.dir/Release/Macalatro
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
+  TARGET_PDB = Release/Macalatro.pdb
 
 
 # =============================================================================
@@ -139,8 +159,9 @@ build Release/Macalatro: CXX_EXECUTABLE_LINKER__Macalatro_Release CMakeFiles/Mac
   OBJECT_DIR = CMakeFiles/Macalatro.dir/Release
   POST_BUILD = :
   PRE_LINK = :
+  TARGET_COMPILE_PDB = CMakeFiles/Macalatro.dir/Release/
   TARGET_FILE = Release/Macalatro
-  TARGET_PDB = Macalatro.dbg
+  TARGET_PDB = Release/Macalatro.pdb
 
 build Macalatro$:Release: phony Release/Macalatro
 

@@ -46,6 +46,13 @@ void AI::playTurn(GameState& gs)
 //	if (gs.turn == AITURN) Debug::log("============================\n", "[AI.cpp] The AI is thinking...\n", "============================");
 //	else Debug::log("[AI.cpp] X - It's not the AI's turn, but somehow, it's playing???");
 
+	if (smoked)
+	{
+		smoked = false;
+		gs.turn = PLAYERTURN;
+		return;
+	}
+	
 	gs.bonuses.oneManShow = false;
 	gs.bonuses.oneShotWonder = false;
 	
@@ -276,4 +283,9 @@ void AI::changeDifficulty(Difficulty newDifficulty)
 Difficulty AI::getDifficulty()
 {
 	return difficulty;
+}
+
+void AI::smokeBomb()
+{
+	smoked = true;
 }

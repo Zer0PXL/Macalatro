@@ -103,7 +103,7 @@ void Hand::playCards(const std::vector<std::shared_ptr<Card>> cards, GameState& 
 			{
 				gs.pile.addCard(toPlay[i]);
 			}
-			if (toPlay[i]->getAbility() == COLOR && !(gs.pile.getCard()->getOwner() == NONE))
+			if (toPlay[i]->getAbility() == COLOR && !(gs.pile.getCard()->getOwner() == NOOWNER))
 			{
 				gs.pile.addCard(toPlay[i]);
 			}
