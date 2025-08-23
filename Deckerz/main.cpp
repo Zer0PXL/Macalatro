@@ -31,7 +31,7 @@ enum Choice
 
 int main()
 {
-	std::cout << "Macalatro CLI v1.1\n";
+	std::cout << "Deckerz CLI v1.1\n";
 	
 	// Game objects
 	AI ai;
